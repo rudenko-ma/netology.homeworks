@@ -70,6 +70,38 @@ Date:   Thu Apr 2 18:04:39 2020 -0700
 ```
 
 ## 6. Найдите все коммиты в которых была изменена функция `globalPluginDirs`.
+
+Коммиты, в которых была изменена функция:
+1. `78b122055` Remove config.go and update things using its aliases
+1. `52dbf9483` keep .terraform.d/plugins for discovery
+1. `41ab0aef7` Add missing OS_ARCH dir to global plugin paths
+1. `66ebff90c` move some more plugin search path logic to command
+1. `8364383c3` Push plugin discovery down into command package
+
+Сначала находим файл в котором определена функция.
+
+```
+# git grep -p "globalPluginDirs("
+commands.go=func initCommands(
+commands.go:            GlobalPluginDirs: globalPluginDirs(),
+commands.go=func credentialsSource(config *cliconfig.Config) (auth.CredentialsSource, error) {
+commands.go:    helperPlugins := pluginDiscovery.FindPlugins("credentials", globalPluginDirs())
+plugins.go=import (
+plugins.go:func globalPluginDirs() []string {
+
+```
+
+Затем ищем комиты затрагивающие эту функцию.
+
+```
+#  git log -L :globalPluginDirs:plugins.go --no-patch --oneline
+78b122055 Remove config.go and update things using its aliases
+52dbf9483 keep .terraform.d/plugins for discovery
+41ab0aef7 Add missing OS_ARCH dir to global plugin paths
+66ebff90c move some more plugin search path logic to command
+8364383c3 Push plugin discovery down into command package
+```
+
 ## 7. Кто автор функции `synchronizedWriters`?
 
 Автор функции `synchronizedWriters` : Martin Atkins
