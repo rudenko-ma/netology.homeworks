@@ -74,6 +74,8 @@ Date:   Thu Apr 2 18:04:39 2020 -0700
 
 Автор функции `synchronizedWriters` : Martin Atkins
 
+Находим все коммиты затрагивающие определенение функции, выводим только имя автора и оставляем последнюю строку.
+
 ```
 git log -S "func synchronizedWriters" --format="%an" | tail -n1
 Martin Atkins
