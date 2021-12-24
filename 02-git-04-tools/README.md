@@ -39,6 +39,68 @@ aefead2207ef7e2aa5dc81a34aedf0cad4c32545 Update CHANGELOG.md
 ```
 
 ## 4. Перечислите хеши и комментарии всех коммитов которые были сделаны между тегами v0.12.23 и v0.12.24.
+
+Коммиты между тегами v0.12.23 и v0.12.24 (не включая их):
+1. `b14b74c4939dcab573326f4e3ee2a62e23e12f89` [Website] vmc provider links
+1. `3f235065b9347a758efadc92295b540ee0a5e26e` Update CHANGELOG.md
+1. `6ae64e247b332925b872447e9ce869657281c2bf` registry: Fix panic when server is unreachable
+Non-HTTP errors previously resulted in a panic due to dereferencing the
+resp pointer while it was nil, as part of rendering the error message.
+This commit changes the error message formatting to cope with a nil
+response, and extends test coverage.
+Fixes #24384
+5c619ca1baf2e21a155fcdb4c264cc9e24a2a353 website: Remove links to the getting started guide's old location
+Since these links were in the soon-to-be-deprecated 0.11 language section, I
+think we can just remove them without needing to find an equivalent link.
+1. `06275647e2b53d97d4f0a19a0fec11f6d69820b5` Update CHANGELOG.md
+1. `d5f9411f5108260320064349b757f55c09bc4b80` command: Fix bug when using terraform login on Windows
+1. `4b6d06cc5dcb78af637bbb19c198faff37a066ed` Update CHANGELOG.md
+1. `dd01a35078f040ca984cdd349f18d0b67e486c35` Update CHANGELOG.md
+1. `225466bc3e5f35baa5d07197bbc079345b77525e` Cleanup after v0.12.23 release
+
+Сначала получаем хеш коммита с тегом `v0.12.24`
+
+```
+# git show --summary --oneline v0.12.24
+tag v0.12.24
+
+v0.12.24
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAABAgAGBQJec4nlAAoJEFGFLYc0j/xMSvoIAK0z57IgGyIs8ghpFaksZkRl
+XJOrZjP1szlXRMAoMNkef46VUDNjrdPBo+xSHuRxbxFpC2vQwqtwA3Dk8W/KaX5F
+AkJXqtWlpyZiWrNMWsXt0AN8CjiaIF5zgrIWvpawGbPU6APOC6FpQiG8WFUobX9p
+yRKMOTARAYO1bNgSr8Tgtvv2djRl3PIe6Im9/qyi7S2cFCV9ql8nRLBMPPvZ5xzr
+3gehdozVGSJ2C1rI0R3DXAu+q9W6KZsZOhBEsBb/2X/M9chiH6JDbT7bvvgXX34P
+gyvcohmWnVwm5Oaurco1hdZFipN+qGMc3EEB3sqoSW0ASTmjocYr44hT3O7/iD0=
+=UdsJ
+-----END PGP SIGNATURE-----
+33ff1c03b (tag: v0.12.24) v0.12.24
+```
+
+Затем получаем список всех комитов между тегами, убираем пустые строки и последний коммит по хешу.
+
+```
+# git show --summary --format="%H %B" v0.12.23..v0.12.24 | grep -vE "^$|^33ff1c03b"
+b14b74c4939dcab573326f4e3ee2a62e23e12f89 [Website] vmc provider links
+3f235065b9347a758efadc92295b540ee0a5e26e Update CHANGELOG.md
+6ae64e247b332925b872447e9ce869657281c2bf registry: Fix panic when server is unreachable
+Non-HTTP errors previously resulted in a panic due to dereferencing the
+resp pointer while it was nil, as part of rendering the error message.
+This commit changes the error message formatting to cope with a nil
+response, and extends test coverage.
+Fixes #24384
+5c619ca1baf2e21a155fcdb4c264cc9e24a2a353 website: Remove links to the getting started guide's old location
+Since these links were in the soon-to-be-deprecated 0.11 language section, I
+think we can just remove them without needing to find an equivalent link.
+06275647e2b53d97d4f0a19a0fec11f6d69820b5 Update CHANGELOG.md
+d5f9411f5108260320064349b757f55c09bc4b80 command: Fix bug when using terraform login on Windows
+4b6d06cc5dcb78af637bbb19c198faff37a066ed Update CHANGELOG.md
+dd01a35078f040ca984cdd349f18d0b67e486c35 Update CHANGELOG.md
+225466bc3e5f35baa5d07197bbc079345b77525e Cleanup after v0.12.23 release
+```
+
 ## 5. Найдите коммит в котором была создана функция `func providerSource`, ее определение в коде выглядит так `func providerSource(...)` (вместо троеточего перечислены аргументы).
 
 Функция `func providerSource` была создана в коммите `8c928e83589d90a031f811fae52a81be7153e82f`.
