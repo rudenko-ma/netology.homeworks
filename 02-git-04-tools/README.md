@@ -72,3 +72,7 @@ Date:   Thu Apr 2 18:04:39 2020 -0700
 ## 6. Найдите все коммиты в которых была изменена функция `globalPluginDirs`.
 ## 7. Кто автор функции `synchronizedWriters`?
 
+```
+git log -S "func synchronizedWriters" --format="%an" | tail -n1
+Martin Atkins
+```
