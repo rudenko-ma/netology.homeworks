@@ -1,27 +1,20 @@
 # Домашнее задание к занятию "3.1. Работа в терминале, лекция 1"
 
-1. Установите средство виртуализации [Oracle VirtualBox](https://www.virtualbox.org/).
-1. Установите средство автоматизации [Hashicorp Vagrant](https://www.vagrantup.com/).
-1. В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. 
+- Установите средство виртуализации [Oracle VirtualBox](https://www.virtualbox.org/).
+- Установите средство автоматизации [Hashicorp Vagrant](https://www.vagrantup.com/).
+- В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. 
 
 Обе программы установлены. Настроен удобный шелл (OhMyZSH+powerlevel10k).
 ![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/1_and_2.jpeg)
 
-1. С помощью базового файла конфигурации запустите Ubuntu 20.04 в VirtualBox посредством Vagrant:
+- С помощью базового файла конфигурации запустите Ubuntu 20.04 в VirtualBox посредством Vagrant:
 
-	* Создайте директорию, в которой будут храниться конфигурационные файлы Vagrant. В ней выполните `vagrant init`. Замените содержимое Vagrantfile по умолчанию следующим:
+Создал директорию с конфигурацией Vagrant. Выполнил команды.
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/vagrant_commands.jpeg)
 
-		```bash
-		Vagrant.configure("2") do |config|
-			config.vm.box = "bento/ubuntu-20.04"
-		end
-		```
+- Ознакомьтесь с графическим интерфейсом VirtualBox, посмотрите как выглядит виртуальная машина, которую создал для вас Vagrant, какие аппаратные ресурсы ей выделены. Какие ресурсы выделены по-умолчанию?
 
-	* Выполнение в этой директории `vagrant up` установит провайдер VirtualBox для Vagrant, скачает необходимый образ и запустит виртуальную машину.
-
-	* `vagrant suspend` выключит виртуальную машину с сохранением ее состояния (т.е., при следующем `vagrant up` будут запущены все процессы внутри, которые работали на момент вызова suspend), `vagrant halt` выключит виртуальную машину штатным образом.
-
-1. Ознакомьтесь с графическим интерфейсом VirtualBox, посмотрите как выглядит виртуальная машина, которую создал для вас Vagrant, какие аппаратные ресурсы ей выделены. Какие ресурсы выделены по-умолчанию?
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/vbox_vm_settings.jpeg)
 
 1. Ознакомьтесь с возможностями конфигурации VirtualBox через Vagrantfile: [документация](https://www.vagratup.com/docs/providers/virtualbox/configuration.html). Как добавить оперативной памяти или ресурсов процессора виртуальной машине?
 
