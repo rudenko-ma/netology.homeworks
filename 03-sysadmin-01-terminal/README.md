@@ -1,25 +1,11 @@
 # Домашнее задание к занятию "3.1. Работа в терминале, лекция 1"
 
 1. Установите средство виртуализации [Oracle VirtualBox](https://www.virtualbox.org/).
-
 1. Установите средство автоматизации [Hashicorp Vagrant](https://www.vagrantup.com/).
-![Обе программы установлены](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/1_and_2.jpeg)
+1. В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. 
 
-1. В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. Можно предложить:
-
-	* iTerm2 в Mac OS X
-	* Windows Terminal в Windows
-	* выбрать цветовую схему, размер окна, шрифтов и т.д.
-	* почитать о кастомизации PS1/применить при желании.
-
-	Несколько популярных проблем:
-	* Добавьте Vagrant в правила исключения перехватывающих трафик для анализа антивирусов, таких как Kaspersky, если у вас возникают связанные с SSL/TLS ошибки,
-	* MobaXterm может конфликтовать с Vagrant в Windows,
-	* Vagrant плохо работает с директориями с кириллицей (может быть вашей домашней директорией), тогда можно либо изменить [VAGRANT_HOME](https://www.vagrantup.com/docs/other/environmental-variables#vagrant_home), либо создать в системе профиль пользователя с английским именем,
-	* VirtualBox конфликтует с Windows Hyper-V и его необходимо [отключить](https://www.vagrantup.com/docs/installation#windows-virtualbox-and-hyper-v),
-	* [WSL2](https://docs.microsoft.com/ru-ru/windows/wsl/wsl2-faq#does-wsl-2-use-hyper-v-will-it-be-available-on-windows-10-home) использует Hyper-V, поэтому с ним VirtualBox также несовместим,
-	* аппаратная виртуализация (Intel VT-x, AMD-V) должна быть активна в BIOS,
-	* в Linux при установке [VirtualBox](https://www.virtualbox.org/wiki/Linux_Downloads) может дополнительно потребоваться пакет `linux-headers-generic` (debian-based) / `kernel-devel` (rhel-based).
+Обе программы установлены. Настроен удобный шелл (OhMyZSH+powerlevel10k).
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/1_and_2.jpeg)
 
 1. С помощью базового файла конфигурации запустите Ubuntu 20.04 в VirtualBox посредством Vagrant:
 
