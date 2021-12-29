@@ -62,7 +62,7 @@ touch prefix-{1..100000}-suffix
 
 - Основываясь на знаниях о просмотре текущих (например, PATH) и установке новых переменных; командах, которые мы рассматривали, добейтесь в выводе type -a bash в виртуальной машине наличия первым пунктом в списке:
 
-![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/type_a_bash.jpeg)
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/type_a_bash.jpg)
 
 - Чем отличается планирование команд с помощью `batch` и `at`?
 
