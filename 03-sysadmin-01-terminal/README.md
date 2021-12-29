@@ -3,6 +3,7 @@
 1. Установите средство виртуализации [Oracle VirtualBox](https://www.virtualbox.org/).
 
 1. Установите средство автоматизации [Hashicorp Vagrant](https://www.vagrantup.com/).
+![Обе программы установлены](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-01-terminal/img/1_and_2.jpeg)
 
 1. В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. Можно предложить:
 
