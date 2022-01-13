@@ -2,7 +2,20 @@
 
 ## 1. Какой системный вызов делает команда `cd`? В прошлом ДЗ мы выяснили, что `cd` не является самостоятельной  программой, это `shell builtin`, поэтому запустить `strace` непосредственно на `cd` не получится. Тем не менее, вы можете запустить `strace` на `/bin/bash -c 'cd /tmp'`. В этом случае вы увидите полный список системных вызовов, которые делает сам `bash` при старте. Вам нужно найти тот единственный, который относится именно к `cd`. Обратите внимание, что `strace` выдаёт результат своей работы в поток stderr, а не в stdout.
 
+Системным вызовом команды `cd` приводящим к смене рабочей директории является системный вызов `chdir`.
 
+```
+# strace bash -c 'cd ~/Projects' 2>&1 | grep Projects              
+execve("/bin/bash", ["bash", "-c", "cd ~/Projects"], 0x7ffe2e684060 /* 67 vars */) = 0
+stat("/home/boroda/Projects/netology/netology.homeworks/03-sysadmin-03-os", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+stat("/home/boroda/Projects", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+stat("/home/boroda/Projects/netology", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+stat("/home/boroda/Projects/netology/netology.homeworks", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+stat("/home/boroda/Projects/netology/netology.homeworks/03-sysadmin-03-os", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+stat("/home/boroda/Projects", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+chdir("/home/boroda/Projects")          = 0
+
+```
 
 ## 2. Попробуйте использовать команду `file` на объекты разных типов на файловой системе. Например:
     ```bash
