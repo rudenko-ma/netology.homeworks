@@ -17,17 +17,62 @@ chdir("/home/boroda/Projects")          = 0
 
 ```
 
-## 2. Попробуйте использовать команду `file` на объекты разных типов на файловой системе. Например:
-    ```bash
-    vagrant@netology1:~$ file /dev/tty
-    /dev/tty: character special (5/0)
-    vagrant@netology1:~$ file /dev/sda
-    /dev/sda: block special (8/0)
-    vagrant@netology1:~$ file /bin/bash
-    /bin/bash: ELF 64-bit LSB shared object, x86-64
-    ```
-    Используя `strace` выясните, где находится база данных `file` на основании которой она делает свои догадки.
+## 2. Попробуйте использовать команду `file` на объекты разных типов на файловой системе. Используя `strace` выясните, где находится база данных `file` на основании которой она делает свои догадки.
 
+Пользуюсь регулярно.
+```
+vagrant@ubuntu2004:~$ file /sbin/init
+/sbin/init: symbolic link to /lib/systemd/systemd
+
+vagrant@ubuntu2004:~$ file /lib/systemd/systemd
+/lib/systemd/systemd: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2ede8a7dfd7aec024d95621e47c7f6fc5ab14b44, for GNU/Linux 3.2.0, stripped
+
+vagrant@ubuntu2004:~$ file /run/dbus/system_bus_socket 
+/run/dbus/system_bus_socket: socket
+
+vagrant@ubuntu2004:~$ file /dev/vda
+/dev/vda: block special (252/0)
+
+vagrant@ubuntu2004:~$ file /dev/tty
+/dev/tty: character special (5/0)
+```
+
+Чтобы выяснить где находится база данных:
+
+1. Отфильтруем вывод `strace file` в поисках системного вызова `openat` отвечающего за открытие файла фильтруя строки с ошибкой `ENOENT`:
+
+```
+# strace file /dev/vda 2>&1 | grep openat | grep -v ENOENT
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libmagic.so.1", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/liblzma.so.5", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libbz2.so.1.0", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+openat(AT_FDCWD, "/etc/magic", O_RDONLY) = 3
+openat(AT_FDCWD, "/usr/share/misc/magic.mgc", O_RDONLY) = 3
+openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+
+```
+
+2. Проверяем файлы начиная с конца списка:
+```
+# file /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache                       
+/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache: gconv module configuration cache data
+
+# file /usr/share/misc/magic.mgc                     
+/usr/share/misc/magic.mgc: symbolic link to ../../lib/file/magic.mgc
+
+# file /usr/share/misc/../../lib/file/magic.mgc           
+/usr/share/misc/../../lib/file/magic.mgc: magic binary file for file(1) cmd (version 14) (little endian)
+
+```
+
+3. Файл `magic.mgc` является бинарным файлом для команды `file`.
+
+4. Ищем в `man file` имя этого файла и убеждаемся в том, что информация необходимая для идентификации файлов действительно хранится в нём (и не только).
 
 ## 3. Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), однако возможности сигналом сказать приложению переоткрыть файлы или просто перезапустить приложение – нет. Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла (чтобы освободить место на файловой системе).
 
