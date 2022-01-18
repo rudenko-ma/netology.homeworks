@@ -117,7 +117,7 @@ sleep     69970                           boroda    1w      REG              253
 /dev/mapper/vgkubuntu-root  124G   23G   95G  20% /
 ```
 
-![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-03-os/img/q333ng)
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-03-os/img/q3.png)
 
 ## 4. Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
 
