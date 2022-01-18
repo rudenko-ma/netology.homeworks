@@ -190,5 +190,29 @@ root@netology1:~#
 
 ## 9. Используя `-o stat` для `ps`, определите, какой наиболее часто встречающийся статус у процессов в системе. В `man ps` ознакомьтесь (`/PROCESS STATE CODES`) что значат дополнительные к основной заглавной буквы статуса процессов. Его можно не учитывать при расчете (считать S, Ss или Ssl равнозначными).
 
+Посчитаем кол-во процессов в различных статусах:
 
+```
+# ps -ao stat | sort | uniq -c
+      1 R+
+     42 S
+     12 S+
+     14 Sl
+      2 Sl+
+      1 STAT
 
+```
+
+Как видно из результата, наиболее часто встречающимися статусами являются: `S`, `Sl`, `S+` (прерываемый сон).
+
+Значения дополнительных символов(характеристик) из `man`:
+
+```
+               <    high-priority (not nice to other users)
+               N    low-priority (nice to other users)
+               L    has pages locked into memory (for real-time and custom IO)
+               s    is a session leader
+               l    is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
+               +    is in the foreground process group
+
+```
