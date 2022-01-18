@@ -123,13 +123,26 @@ sleep     69970                           boroda    1w      REG              253
 
 Нет. Зомби-процессы не занимаю память, процессор или подсистему ввода вывода, однако записи о них сохраняются в таблице процессов, что может привести к достижению лимита запущенных процесов и, как следствие, невозможности входа пользователя в систему, отказу сервисов и т.д.
 
-## 5. В iovisor BCC есть утилита `opensnoop`:
-    ```bash
-    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
-    /usr/sbin/opensnoop-bpfcc
-    ```
-    На какие файлы вы увидели вызовы группы `open` за первую секунду работы утилиты? Воспользуйтесь пакетом `bpfcc-tools` для Ubuntu 20.04. Дополнительные [сведения по установке](https://github.com/iovisor/bcc/blob/master/INSTALL.md).
+## 5. В iovisor BCC есть утилита `opensnoop`. На какие файлы вы увидели вызовы группы `open` за первую секунду работы утилиты? Воспользуйтесь пакетом `bpfcc-tools` для Ubuntu 20.04. Дополнительные [сведения по установке](https://github.com/iovisor/bcc/blob/master/INSTALL.md).
 
+Установим пакет согласно инструкции: `sudo apt-get install bpfcc-tools linux-headers-$(uname -r)`
+
+Проверим наличие исполняемого файла утилиты:
+```
+vagrant@ubuntu2004:~$ dpkg -L bpfcc-tools | grep sbin/opensnoop
+/usr/sbin/opensnoop-bpfcc
+
+```
+
+Запустим приложение с задержкой трассировки в 1 секунду:
+
+```
+vagrant@ubuntu2004:~$ sudo /usr/sbin/opensnoop-bpfcc -d 1
+PID    COMM               FD ERR PATH
+347    systemd-udevd      14   0 /sys/fs/cgroup/unified/system.slice/systemd-udevd.service/cgroup.procs
+347    systemd-udevd      14   0 /sys/fs/cgroup/unified/system.slice/systemd-udevd.service/cgroup.threads
+
+```
 
 ## 6. Какой системный вызов использует `uname -a`? Приведите цитату из man по этому системному вызову, где описывается альтернативное местоположение в `/proc`, где можно узнать версию ядра и релиз ОС.
 
