@@ -2,7 +2,46 @@
 
 ## 1. На лекции мы познакомились с [node_exporter](https://github.com/prometheus/node_exporter/releases). В демонстрации его исполняемый файл запускался в background. Этого достаточно для демо, но не для настоящей production-системы, где процессы должны находиться под внешним управлением. Используя знания из лекции по systemd, создайте самостоятельно простой [unit-файл](https://www.freedesktop.org/software/systemd/man/systemd.service.html) для node_exporter:
 
+Установим `node_exporter` в систему:
+```
+vagrant@ubuntu2004:~$ wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+...
+vagrant@ubuntu2004:~$ tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz 
+...
+vagrant@ubuntu2004:~$ sudo cp -r node_exporter-1.3.1.linux-amd64 /usr/local/lib/node_exporter-1.3.1
+...
+sudo ln -s /usr/local/lib/node_exporter-1.3.1/node_exporter /usr/local/bin/node_exporter
+
+```
+
+Теперь созданим `unit-файл`:
+```
+vagrant@ubuntu2004:~$ sudo systemctl edit --force --full node_exporter.service
+vagrant@ubuntu2004:~$ sudo systemctl cat node_exporter.service
+# /etc/systemd/system/node_exporter.service
+[Unit]
+Description=Node Exporter
+ 
+[Service]
+ExecStart=/usr/local/bin/node_exporter
+EnvironmentFile=/etc/default/node_exporter
+ 
+[Install]
+WantedBy=default.target
+vagrant@ubuntu2004:~$ sudo systemctl status node_exporter.service
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+
+```
+
     * поместите его в автозагрузку,
+
+```
+vagrant@ubuntu2004:~$ sudo systemctl enable node_exporter.service 
+Created symlink /etc/systemd/system/default.target.wants/node_exporter.service → /etc/systemd/system/node_exporter.service.
+```
+
     * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
     * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
 
