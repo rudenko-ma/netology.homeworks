@@ -10,7 +10,7 @@ vagrant@ubuntu2004:~$ tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
 ...
 vagrant@ubuntu2004:~$ sudo cp -r node_exporter-1.3.1.linux-amd64 /usr/local/lib/node_exporter-1.3.1
 ...
-sudo ln -s /usr/local/lib/node_exporter-1.3.1/node_exporter /usr/local/bin/node_exporter
+vagrant@ubuntu2004:~$ sudo ln -s /usr/local/lib/node_exporter-1.3.1/node_exporter /usr/local/bin/node_exporter
 
 ```
 
@@ -21,11 +21,13 @@ vagrant@ubuntu2004:~$ sudo systemctl cat node_exporter.service
 # /etc/systemd/system/node_exporter.service
 [Unit]
 Description=Node Exporter
- 
+After=network-online.target
+
 [Service]
+Type=simple
+EnvironmentFile=-/etc/default/node_exporter
 ExecStart=/usr/local/bin/node_exporter
-EnvironmentFile=/etc/default/node_exporter
- 
+
 [Install]
 WantedBy=default.target
 vagrant@ubuntu2004:~$ sudo systemctl status node_exporter.service
@@ -35,15 +37,43 @@ vagrant@ubuntu2004:~$ sudo systemctl status node_exporter.service
 
 ```
 
-    * поместите его в автозагрузку,
+Помещаем демон в автозагрузку:
 
 ```
 vagrant@ubuntu2004:~$ sudo systemctl enable node_exporter.service 
 Created symlink /etc/systemd/system/default.target.wants/node_exporter.service → /etc/systemd/system/node_exporter.service.
 ```
 
-    * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
-    * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
+Проверим возможность добавления опций к запускаемому процессу через предусмотренный внешний файл:
+```
+vagrant@ubuntu2004:~$ echo "ARGS=--my-extra-option=some-value" | sudo tee /etc/default/node_exporter
+ARGS=--my-extra-option=some-value
+vagrant@ubuntu2004:~$ sudo systemctl restart node_exporter.service 
+vagrant@ubuntu2004:~$ systemctl status node_exporter.service 
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-01-19 07:10:19 UTC; 10s ago
+   Main PID: 1066 (node_exporter)
+      Tasks: 3 (limit: 1071)
+     Memory: 2.2M
+     CGroup: /system.slice/node_exporter.service
+             └─1066 /usr/local/bin/node_exporter
+
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.658Z caller=node_exporter.go:115 level=info collector=thermal_zone
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.658Z caller=node_exporter.go:115 level=info collector=time
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.658Z caller=node_exporter.go:115 level=info collector=timex
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collectorudp_queues
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=uname
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=vmstat
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=xfs
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=zfs
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9100
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.660Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
+vagrant@ubuntu2004:~$ sudo cat /proc/1066/environ 
+LANG=en_US.UTF-8LANGUAGE=en_US:PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/binINVOCATION_ID=c15345d821dd4d76a8e636f5f779f5d2JOURNAL_STREAM=9:26634ARGS=--my-extra-option=some-value
+```
+
+Как мы видим, аргумент передан в переменные окружения процесса.
 
 ## 2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
