@@ -117,18 +117,37 @@ node_network_transmit_errs_total{device="eth0"}
 
 ## 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 
-Да, можно. В данном случае мы видим даже используемый гипервизор(`Booting paravirtualized kernel on KVM`):
+Да, можно:
 ```
-vagrant@ubuntu2004:~$ dmesg | grep virtual
+vagrant@ubuntu2004:~$ dmesg | grep virtualiz
 [    0.013770] Booting paravirtualized kernel on KVM
 [    1.727519] systemd[1]: Detected virtualization kvm.
-[    1.929477] systemd[1]: Unnecessary job for /sys/devices/virtual/misc/vmbus!hv_fcopy was removed.
-[    1.929481] systemd[1]: Unnecessary job for /sys/devices/virtual/misc/vmbus!hv_vss was removed.
+```
+В данном случае, мы видим что используется гипервизор`KVM`.
+
+А вот вывод с виртуальной машины запущенной под управлением `Hyper-V`:
+```
+# dmesg | grep virtualiz 
+[    0.017028] Booting paravirtualized kernel on Hyper-V
+[    2.838227] systemd[1]: Detected virtualization microsoft.
 ```
 
 ## 5. Как настроен sysctl `fs.nr_open` на системе по-умолчанию? Узнайте, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?
 
+По умолчанию параметр `fs.nr_open` имеет значение `1048576`.
+```
+vagrant@ubuntu2004:~$ sysctl fs.nr_open
+fs.nr_open = 1048576
 
+```
+
+Данный параметр определяет максимально допустимое кол-во файловых дескрипторов открытых в системе.
+
+Другой существующий лимит - это "мягкий" лимит пользователя, который по умолчанию равен `1024`:
+```
+vagrant@ubuntu2004:~$ ulimit -Sn
+1024
+```
 
 ## 6. Запустите любой долгоживущий процесс (не `ls`, который отработает мгновенно, а, например, `sleep 1h`) в отдельном неймспейсе процессов; покажите, что ваш процесс работает под PID 1 через `nsenter`. Для простоты работайте в данном задании под root (`sudo -i`). Под обычным пользователем требуются дополнительные опции (`--map-root-user`) и т.д.
 
