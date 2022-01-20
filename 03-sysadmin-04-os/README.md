@@ -111,13 +111,20 @@ node_network_transmit_bytes_total{device="eth0"}
 node_network_transmit_errs_total{device="eth0"}
 ```
 
-## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
+## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки: пробросте порт `Netdata` на свой локальный компьютер, осуществите вход в интерфейс `Netdata` по `localhost:19999` и ознакомьтесь с метриками, которые по умолчанию собираются `Netdata` и с комментариями, которые даны к этим метрикам.
 
 ![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-04-os/img/q3.png)
 
 ## 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 
-
+Да, можно. В данном случае мы видим даже используемый гипервизор(`Booting paravirtualized kernel on KVM`):
+```
+vagrant@ubuntu2004:~$ dmesg | grep virtual
+[    0.013770] Booting paravirtualized kernel on KVM
+[    1.727519] systemd[1]: Detected virtualization kvm.
+[    1.929477] systemd[1]: Unnecessary job for /sys/devices/virtual/misc/vmbus!hv_fcopy was removed.
+[    1.929481] systemd[1]: Unnecessary job for /sys/devices/virtual/misc/vmbus!hv_vss was removed.
+```
 
 ## 5. Как настроен sysctl `fs.nr_open` на системе по-умолчанию? Узнайте, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?
 
