@@ -44,7 +44,7 @@ vagrant@ubuntu2004:~$ sudo systemctl enable node_exporter.service
 Created symlink /etc/systemd/system/default.target.wants/node_exporter.service → /etc/systemd/system/node_exporter.service.
 ```
 
-Проверим возможность добавления опций к запускаемому процессу через предусмотренный внешний файл:
+Проверим возможность добавления опций к запускаемому процессу через предусмотренный внешний файл(`EnvironmentFile`):
 ```
 vagrant@ubuntu2004:~$ echo "ARGS=--my-extra-option=some-value" | sudo tee /etc/default/node_exporter
 ARGS=--my-extra-option=some-value
@@ -77,7 +77,44 @@ LANG=en_US.UTF-8LANGUAGE=en_US:PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/us
 
 ## 2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
+1. Процессор:
 
+```
+process_cpu_seconds_total
+node_cpu_seconds_total{cpu="0",mode="idle"}
+node_cpu_seconds_total{cpu="0",mode="iowait"}
+node_cpu_seconds_total{cpu="0",mode="system"}
+node_cpu_seconds_total{cpu="0",mode="user"}
+```
+
+1. Оперативная память:
+```
+node_memory_MemAvailable_bytes
+node_memory_MemFree_bytes
+node_memory_MemTotal_bytes
+node_memory_SwapFree_bytes
+node_memory_SwapTotal_bytes
+
+```
+
+1. Блочные устройства:
+```
+node_disk_io_time_seconds_total{device="vda"} 
+node_disk_read_time_seconds_total{device="vda"}
+node_disk_write_time_seconds_total{device="vda"}
+node_disk_read_bytes_total{device="vda"} 
+node_disk_written_bytes_total{device="vda"}
+
+```
+
+1. Сеть:
+```
+node_network_receive_bytes_total{device="eth0"}
+node_network_receive_errs_total{device="eth0"}
+node_network_transmit_bytes_total{device="eth0"}
+node_network_transmit_errs_total{device="eth0"}
+
+```
 
 ## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
     
