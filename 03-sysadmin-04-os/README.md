@@ -11,7 +11,6 @@ vagrant@ubuntu2004:~$ tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
 vagrant@ubuntu2004:~$ sudo cp -r node_exporter-1.3.1.linux-amd64 /usr/local/lib/node_exporter-1.3.1
 ...
 vagrant@ubuntu2004:~$ sudo ln -s /usr/local/lib/node_exporter-1.3.1/node_exporter /usr/local/bin/node_exporter
-
 ```
 
 Теперь созданим `unit-файл`:
@@ -34,7 +33,6 @@ vagrant@ubuntu2004:~$ sudo systemctl status node_exporter.service
 ● node_exporter.service - Node Exporter
      Loaded: loaded (/etc/systemd/system/node_exporter.service; disabled; vendor preset: enabled)
      Active: inactive (dead)
-
 ```
 
 Помещаем демон в автозагрузку:
@@ -94,7 +92,6 @@ node_memory_MemFree_bytes
 node_memory_MemTotal_bytes
 node_memory_SwapFree_bytes
 node_memory_SwapTotal_bytes
-
 ```
 
 1. Блочные устройства:
@@ -104,7 +101,6 @@ node_disk_read_time_seconds_total{device="vda"}
 node_disk_write_time_seconds_total{device="vda"}
 node_disk_read_bytes_total{device="vda"} 
 node_disk_written_bytes_total{device="vda"}
-
 ```
 
 1. Сеть:
@@ -113,19 +109,11 @@ node_network_receive_bytes_total{device="eth0"}
 node_network_receive_errs_total{device="eth0"}
 node_network_transmit_bytes_total{device="eth0"}
 node_network_transmit_errs_total{device="eth0"}
-
 ```
 
 ## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
-    
-    * в конфигурационном файле `/etc/netdata/netdata.conf` в секции [web] замените значение с localhost на `bind to = 0.0.0.0`,
-    * добавьте в Vagrantfile проброс порта Netdata на свой локальный компьютер и сделайте `vagrant reload`:
 
-    ```
-    config.vm.network "forwarded_port", guest: 19999, host: 19999
-    ```
-
-    После успешной перезагрузки в браузере *на своем ПК* (не в виртуальной машине) вы должны суметь зайти на `localhost:19999`. Ознакомьтесь с метриками, которые по умолчанию собираются Netdata и с комментариями, которые даны к этим метрикам.
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-04-os/img/q3.png)
 
 ## 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 
