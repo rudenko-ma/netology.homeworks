@@ -25,7 +25,7 @@ After=network-online.target
 [Service]
 Type=simple
 EnvironmentFile=-/etc/default/node_exporter
-ExecStart=/usr/local/bin/node_exporter
+ExecStart=/usr/local/bin/node_exporter $EXTRA_ARGS
 
 [Install]
 WantedBy=default.target
@@ -44,7 +44,7 @@ Created symlink /etc/systemd/system/default.target.wants/node_exporter.service �
 
 Проверим возможность добавления опций к запускаемому процессу через предусмотренный внешний файл(`EnvironmentFile`):
 ```
-vagrant@ubuntu2004:~$ echo "ARGS=--my-extra-option=some-value" | sudo tee /etc/default/node_exporter
+vagrant@ubuntu2004:~$ echo EXTRA_ARGS=--web.listen-address=:9101 | sudo tee /etc/default/node_exporter
 ARGS=--my-extra-option=some-value
 vagrant@ubuntu2004:~$ sudo systemctl restart node_exporter.service 
 vagrant@ubuntu2004:~$ systemctl status node_exporter.service 
@@ -55,7 +55,7 @@ vagrant@ubuntu2004:~$ systemctl status node_exporter.service
       Tasks: 3 (limit: 1071)
      Memory: 2.2M
      CGroup: /system.slice/node_exporter.service
-             └─1066 /usr/local/bin/node_exporter
+             └─1066 /usr/local/bin/node_exporter --web.listen-address=:9101
 
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.658Z caller=node_exporter.go:115 level=info collector=thermal_zone
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.658Z caller=node_exporter.go:115 level=info collector=time
@@ -65,13 +65,13 @@ Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z call
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=vmstat
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=xfs
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:115 level=info collector=zfs
-Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9100
+Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.659Z caller=node_exporter.go:199 level=info msg="Listening on" address=:9101
 Jan 19 07:10:19 ubuntu2004 node_exporter[1066]: ts=2022-01-19T07:10:19.660Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
 vagrant@ubuntu2004:~$ sudo cat /proc/1066/environ 
-LANG=en_US.UTF-8LANGUAGE=en_US:PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/binINVOCATION_ID=c15345d821dd4d76a8e636f5f779f5d2JOURNAL_STREAM=9:26634ARGS=--my-extra-option=some-value
+LANG=en_US.UTF-8LANGUAGE=en_US:PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/binINVOCATION_ID=c15345d821dd4d76a8e636f5f779f5d2JOURNAL_STREAM=9:26634EXTRA_ARGS=--web.listen-address=:9101
 ```
 
-Как мы видим, аргумент передан в переменные окружения процесса.
+Как мы видим, аргумент передан в переменные окружения процесса и интерфейс доступен по указанному порту `9101`.
 
 ## 2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
@@ -113,6 +113,7 @@ node_network_transmit_errs_total{device="eth0"}
 
 ## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки: пробросте порт `Netdata` на свой локальный компьютер, осуществите вход в интерфейс `Netdata` по `localhost:19999` и ознакомьтесь с метриками, которые по умолчанию собираются `Netdata` и с комментариями, которые даны к этим метрикам.
 
+Установил, пробросил, ознакомился:
 ![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-04-os/img/q3.png)
 
 ## 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
@@ -151,6 +152,24 @@ vagrant@ubuntu2004:~$ ulimit -Sn
 
 ## 6. Запустите любой долгоживущий процесс (не `ls`, который отработает мгновенно, а, например, `sleep 1h`) в отдельном неймспейсе процессов; покажите, что ваш процесс работает под PID 1 через `nsenter`. Для простоты работайте в данном задании под root (`sudo -i`). Под обычным пользователем требуются дополнительные опции (`--map-root-user`) и т.д.
 
+Запускаем длительный процесс в отдельном пространстве имен:
+```
+root@ubuntu2004:~# unshare -f -p --mount-proc sleep 1h
+```
 
+Находим PID `unshare`, находим его потомка `sleep`, переходим в пространство имен данного процесса и смотрим его `PID`:
+```
+root@ubuntu2004:~# ps aux | grep unshare
+root       26215  0.0  0.0   9832   532 pts/0    S+   15:21   0:00 unshare -f -p --mount-proc sleep 1h
+root       26218  0.0  0.0  10760   736 pts/1    S+   15:21   0:00 grep --color=auto unshare
+root@ubuntu2004:~# pstree -p 26215
+unshare(26215)───sleep(26216)
+root@ubuntu2004:~# nsenter -t 26216 -p -m
+root@ubuntu2004:/# ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   9828   584 pts/0    S+   15:21   0:00 sleep 1h
+root           2  0.2  0.5  12600  5048 pts/1    S    15:22   0:00 -bash
+root          11  0.0  0.3  13216  3276 pts/1    R+   15:22   0:00 ps aux
+```
 
 ## 7. Найдите информацию о том, что такое `:(){ :|:& };:`. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04 (**это важно, поведение в других ОС не проверялось**). Некоторое время все будет "плохо", после чего (минуты) – ОС должна стабилизироваться. Вызов `dmesg` расскажет, какой механизм помог автоматической стабилизации. Как настроен этот механизм по-умолчанию, и как изменить число процессов, которое можно создать в сессии?
