@@ -275,7 +275,13 @@ Writing superblocks and filesystem accounting information: done
 
 ## 12. Смонтируйте этот раздел в любую директорию, например, `/tmp/new`.
 
-
+Создаем директорию, монтируем `LV` и проверяем:
+```
+vagrant@u20fs:~$ mkdir -p /tmp/new
+vagrant@u20fs:~$ sudo mount /dev/vg-all/lv100M /tmp/new
+vagrant@u20fs:~$ df -H | grep lv100M
+/dev/mapper/vg--all-lv100M   98M   74k   90M   1% /tmp/new
+```
 
 ## 13. Поместите туда тестовый файл, например `wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz`.
 
