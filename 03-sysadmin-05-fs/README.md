@@ -326,8 +326,9 @@ vda                  252:0    0   128G  0 disk
 
 ```
 
-## 15. Протестируйте целостность файла:
+## 15. Протестируйте целостность файла.
 
+Целостность файла не нарушена.
 ```
 vagrant@u20fs:~$ gzip -t /tmp/new/test.gz 
 vagrant@u20fs:~$ echo $?
@@ -405,13 +406,14 @@ vagrant@u20fs:~$ dmesg -T | grep raid1
                            md/raid1:md0: Operation continuing on 1 devices.
 ```
 
-## 19. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
+## 19. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен.
 
-    ```bash
-    root@vagrant:~# gzip -t /tmp/new/test.gz
-    root@vagrant:~# echo $?
-    0
-    ```
+Файл по-прежнему цел и доступен.
+```
+vagrant@u20fs:~$ gzip -t /tmp/new/test.gz
+vagrant@u20fs:~$ echo $?
+0
+```
 
 ## 20. Погасите тестовый хост, `vagrant destroy`.
 
