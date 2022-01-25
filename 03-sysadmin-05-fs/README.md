@@ -139,9 +139,33 @@ Syncing disks.
 
 ## 6. Соберите `mdadm` RAID1 на паре разделов 2 Гб.
 
+<details>
+  <summary>Создаём RAID1:</summary>
 
+  ```
+  vagrant@u20fs:~$ sudo mdadm -C -v /dev/md0 -l1 -n2 /dev/sd{a1,b1}
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: size set to 2094080K
+Continue creating array? y
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md0 started.
+  ```
+</details>
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-05-fs/img/q6.png)
 
 ## 7. Соберите `mdadm` RAID0 на второй паре маленьких разделов.
+
+<details>
+  <summary></summary>
+
+  ```
+  ```
+</details>
 
 ## 8. Создайте 2 независимых PV на получившихся md-устройствах.
 
