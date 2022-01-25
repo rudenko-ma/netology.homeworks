@@ -15,23 +15,28 @@ cp --sparse=always ./simple-file ./sparse-file
 
 Нет, не могут. Жесткая ссылка указывает на тот же самый `inode`, следовательно: права, содержимое и свойства файла будут идентичны.
 
-## 3. Сделайте `vagrant destroy` на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:
+## 3. Сделайте `vagrant destroy` на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile конфигурацией, которая создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
 
-    ```bash
-    Vagrant.configure("2") do |config|
-      config.vm.box = "bento/ubuntu-20.04"
-      config.vm.provider :vitualbox do |vb|
-        lvm_experiments_disk0_path = "/tmp/lvm_experiments_disk0.vmdk"
-        lvm_experiments_disk1_path = "/tmp/lvm_experiments_disk1.vmdk"
-        vb.customize ['createmedium', '--filename', lvm_experiments_disk0_path, '--size', 2560]
-        vb.customize ['createmedium', '--filename', lvm_experiments_disk1_path, '--size', 2560]
-        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk0_path]
-        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk1_path]
-      end
+Скорректировал вопрос, так как в моем случае в качестве гипервизора для `vagrant` используется `kvm`. Получившийся конфиг:
+
+```
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+Vagrant.configure("2") do |config|
+  config.vm.define "u20fs" do |h|
+    h.vm.hostname = "u20fs"
+    h.vm.box = "generic/ubuntu2004"
+    h.vm.box_check_update = false
+    h.vm.provider :libvirt do |v|
+      v.memory = 1024
+      v.cpus = 1
+      v.storage :file, :size => '2560M', :type => 'qcow2', :bus => 'scsi'
+      v.storage :file, :size => '2560M', :type => 'qcow2', :bus => 'scsi'
     end
-    ```
+  end
+end
 
-    Данная конфигурация создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
+```
 
 ## 4. Используя `fdisk`, разбейте первый диск на 2 раздела: 2 Гб, оставшееся пространство.
 
