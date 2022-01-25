@@ -180,6 +180,28 @@ mdadm: array /dev/md1 started.
 vagrant@u20fs:~$ sudo pvcreate /dev/md0 /dev/md1
   Physical volume "/dev/md0" successfully created.
   Physical volume "/dev/md1" successfully created.
+vagrant@u20fs:~$ sudo pvdisplay 
+  --- Physical volume ---
+  PV Name               /dev/md1
+  VG Name               vg-all
+  PV Size               1018.00 MiB / not usable 2.00 MiB
+  Allocatable           yes 
+  PE Size               4.00 MiB
+  Total PE              254
+  Free PE               254
+  Allocated PE          0
+  PV UUID               9RBSJh-xSl0-OqEq-VWIh-ISWv-OOLT-tyt5BM
+   
+  --- Physical volume ---
+  PV Name               /dev/md0
+  VG Name               vg-all
+  PV Size               <2.00 GiB / not usable 0   
+  Allocatable           yes 
+  PE Size               4.00 MiB
+  Total PE              511
+  Free PE               511
+  Allocated PE          0
+  PV UUID               fbGwe8-GMma-rrWe-W0Ou-xDCc-n1cd-3crnBh
 ```
 
 ## 9. Создайте общую volume-group на этих двух PV.
@@ -188,6 +210,27 @@ vagrant@u20fs:~$ sudo pvcreate /dev/md0 /dev/md1
 ```
 vagrant@u20fs:~$ sudo vgcreate vg-all /dev/md1 /dev/md0
   Volume group "vg-all" successfully created
+vagrant@u20fs:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               vg-all
+  System ID             
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               <2.99 GiB
+  PE Size               4.00 MiB
+  Total PE              765
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       765 / <2.99 GiB
+  VG UUID               iOvjLq-z3Rc-1f65-da4D-z0KU-zGDS-W073fI
 ```
 
 ## 10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
