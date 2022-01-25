@@ -101,8 +101,9 @@ Syncing disks.
 
 <details>
   <summary>Копирование таблицы разделов:</summary>
+
   ```
-vagrant@u20fs:~$ sudo sfdisk -d /dev/sda | sudo sfdisk /dev/sdb
+  vagrant@u20fs:~$ sudo sfdisk -d /dev/sda | sudo sfdisk /dev/sdb
 Checking that no-one is using this disk right now ... OK
 
 Disk /dev/sdb: 2.51 GiB, 2684354560 bytes, 5242880 sectors
