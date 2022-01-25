@@ -161,11 +161,17 @@ mdadm: array /dev/md0 started.
 ## 7. Соберите `mdadm` RAID0 на второй паре маленьких разделов.
 
 <details>
-  <summary></summary>
+  <summary>Создаём RAID0:</summary>
 
   ```
+  vagrant@u20fs:~$ sudo mdadm -C -v /dev/md1 -l0 -n2 /dev/sd{a2,b2}
+mdadm: chunk size defaults to 512K
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md1 started.
   ```
 </details>
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-05-fs/img/q7.png)
 
 ## 8. Создайте 2 независимых PV на получившихся md-устройствах.
 
