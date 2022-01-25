@@ -336,9 +336,33 @@ vagrant@u20fs:~$ echo $?
 
 ## 16. Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
-
+```
+vagrant@u20fs:~$ sudo pvmove -n /dev/vg-all/lv100M /dev/md1 /dev/md0
+  /dev/md1: Moved: 88.00%
+  /dev/md1: Moved: 100.00%
+vagrant@u20fs:~$ lsblk
+NAME                 MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+sda                    8:0    0   2.5G  0 disk  
+├─sda1                 8:1    0     2G  0 part  
+│ └─md0                9:0    0     2G  0 raid1 
+│   └─vg--all-lv100M 253:0    0   100M  0 lvm   /tmp/new
+└─sda2                 8:2    0   511M  0 part  
+  └─md1                9:1    0  1018M  0 raid0 
+sdb                    8:16   0   2.5G  0 disk  
+├─sdb1                 8:17   0     2G  0 part  
+│ └─md0                9:0    0     2G  0 raid1 
+│   └─vg--all-lv100M 253:0    0   100M  0 lvm   /tmp/new
+└─sdb2                 8:18   0   511M  0 part  
+  └─md1                9:1    0  1018M  0 raid0 
+vda                  252:0    0   128G  0 disk  
+├─vda1               252:1    0   487M  0 part  /boot
+├─vda2               252:2    0   1.9G  0 part  [SWAP]
+└─vda3               252:3    0 125.6G  0 part  /
+```
 
 ## 17. Сделайте `--fail` на устройство в вашем RAID1 md.
+
+
 
 ## 18. Подтвердите выводом `dmesg`, что RAID1 работает в деградированном состоянии.
 
