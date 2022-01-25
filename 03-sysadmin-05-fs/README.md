@@ -235,6 +235,29 @@ vagrant@u20fs:~$ sudo vgdisplay
 
 ## 10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
+Создаём `Logical Volume`:
+```
+vagrant@u20fs:~$ sudo lvcreate -L 100M -n lv100M vg-all /dev/md1
+  Logical volume "lv100M" created.
+vagrant@u20fs:~$ sudo lvdisplay 
+  --- Logical volume ---
+  LV Path                /dev/vg-all/lv100M
+  LV Name                lv100M
+  VG Name                vg-all
+  LV UUID                GJjwHd-4CLh-s7Zm-zrDb-J1wr-tiYg-6yCb4I
+  LV Write Access        read/write
+  LV Creation host, time u20fs, 2022-01-25 09:49:50 +0000
+  LV Status              available
+  # open                 0
+  LV Size                100.00 MiB
+  Current LE             25
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     4096
+  Block device           253:0
+```
+
 ## 11. Создайте `mkfs.ext4` ФС на получившемся LV.
 
 ## 12. Смонтируйте этот раздел в любую директорию, например, `/tmp/new`.
