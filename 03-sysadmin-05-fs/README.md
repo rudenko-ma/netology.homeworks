@@ -285,7 +285,26 @@ vagrant@u20fs:~$ df -H | grep lv100M
 
 ## 13. Поместите туда тестовый файл, например `wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz`.
 
+Загружаем файл на новый раздел (предварительно получив права):
+```
+vagrant@u20fs:~$ sudo chown -R vagrant:vagrant /tmp/new
+vagrant@u20fs:~$ wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+--2022-01-25 11:06:33--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
+Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 22054145 (21M) [application/octet-stream]
+Saving to: ‘/tmp/new/test.gz’
+
+/tmp/new/test.gz          100%[=====================================>]  21.03M  5.94MB/s    in 3.5s    
+
+2022-01-25 11:06:38 (5.94 MB/s) - ‘/tmp/new/test.gz’ saved [22054145/22054145]
+
+```
+
 ## 14. Прикрепите вывод `lsblk`.
+
+
 
 ## 15. Протестируйте целостность файла:
 
