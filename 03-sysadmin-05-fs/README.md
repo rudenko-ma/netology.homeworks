@@ -362,7 +362,40 @@ vda                  252:0    0   128G  0 disk
 
 ## 17. Сделайте `--fail` на устройство в вашем RAID1 md.
 
+```
+vagrant@u20fs:~$ sudo mdadm /dev/md0 -f /dev/sdb1
+mdadm: set /dev/sdb1 faulty in /dev/md0
+vagrant@u20fs:~$ sudo mdadm -D /dev/md0
+/dev/md0:
+           Version : 1.2
+     Creation Time : Tue Jan 25 09:13:26 2022
+        Raid Level : raid1
+        Array Size : 2094080 (2045.00 MiB 2144.34 MB)
+     Used Dev Size : 2094080 (2045.00 MiB 2144.34 MB)
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
 
+       Update Time : Tue Jan 25 11:26:47 2022
+             State : clean, degraded 
+    Active Devices : 1
+   Working Devices : 1
+    Failed Devices : 1
+     Spare Devices : 0
+
+Consistency Policy : resync
+
+              Name : u20fs:0  (local to host u20fs)
+              UUID : 49711e16:cab80c2e:1d12d88f:f26648cc
+            Events : 21
+
+    Number   Major   Minor   RaidDevice State
+       0       8        1        0      active sync   /dev/sda1
+       -       0        0        1      removed
+
+       1       8       17        -      faulty   /dev/sdb1
+
+```
 
 ## 18. Подтвердите выводом `dmesg`, что RAID1 работает в деградированном состоянии.
 
