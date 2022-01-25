@@ -184,6 +184,12 @@ vagrant@u20fs:~$ sudo pvcreate /dev/md0 /dev/md1
 
 ## 9. Создайте общую volume-group на этих двух PV.
 
+Создаем общую `Volume Group`:
+```
+vagrant@u20fs:~$ sudo vgcreate vg-all /dev/md1 /dev/md0
+  Volume group "vg-all" successfully created
+```
+
 ## 10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
 ## 11. Создайте `mkfs.ext4` ФС на получившемся LV.
