@@ -394,10 +394,16 @@ Consistency Policy : resync
        -       0        0        1      removed
 
        1       8       17        -      faulty   /dev/sdb1
-
 ```
 
 ## 18. Подтвердите выводом `dmesg`, что RAID1 работает в деградированном состоянии.
+
+```
+vagrant@u20fs:~$ dmesg -T | grep raid1
+...
+[Tue Jan 25 11:26:51 2022] md/raid1:md0: Disk failure on sdb1, disabling device.
+                           md/raid1:md0: Operation continuing on 1 devices.
+```
 
 ## 19. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
 
