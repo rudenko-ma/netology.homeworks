@@ -417,4 +417,8 @@ vagrant@u20fs:~$ echo $?
 
 ## 20. Погасите тестовый хост, `vagrant destroy`.
 
-
+```
+# vagrant destroy
+    default: Are you sure you want to destroy the 'default' VM? [y/N] y
+==> default: Destroying VM and associated drives...
+```
