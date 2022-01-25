@@ -304,7 +304,27 @@ Saving to: ‘/tmp/new/test.gz’
 
 ## 14. Прикрепите вывод `lsblk`.
 
+```
+vagrant@u20fs:~$ lsblk
+NAME                 MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+sda                    8:0    0   2.5G  0 disk  
+├─sda1                 8:1    0     2G  0 part  
+│ └─md0                9:0    0     2G  0 raid1 
+└─sda2                 8:2    0   511M  0 part  
+  └─md1                9:1    0  1018M  0 raid0 
+    └─vg--all-lv100M 253:0    0   100M  0 lvm   /tmp/new
+sdb                    8:16   0   2.5G  0 disk  
+├─sdb1                 8:17   0     2G  0 part  
+│ └─md0                9:0    0     2G  0 raid1 
+└─sdb2                 8:18   0   511M  0 part  
+  └─md1                9:1    0  1018M  0 raid0 
+    └─vg--all-lv100M 253:0    0   100M  0 lvm   /tmp/new
+vda                  252:0    0   128G  0 disk  
+├─vda1               252:1    0   487M  0 part  /boot
+├─vda2               252:2    0   1.9G  0 part  [SWAP]
+└─vda3               252:3    0 125.6G  0 part  /
 
+```
 
 ## 15. Протестируйте целостность файла:
 
