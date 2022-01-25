@@ -328,13 +328,15 @@ vda                  252:0    0   128G  0 disk
 
 ## 15. Протестируйте целостность файла:
 
-    ```bash
-    root@vagrant:~# gzip -t /tmp/new/test.gz
-    root@vagrant:~# echo $?
-    0
-    ```
+```
+vagrant@u20fs:~$ gzip -t /tmp/new/test.gz 
+vagrant@u20fs:~$ echo $?
+0
+```
 
 ## 16. Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
+
+
 
 ## 17. Сделайте `--fail` на устройство в вашем RAID1 md.
 
