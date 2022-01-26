@@ -146,7 +146,7 @@ traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
 Наибольшая задержка наблюдается на участке **№9** `AS15169  216.239.46.139`. За 10 циклов проверки она составила в среднем `124.6`мс.
 
 ```
-mtr -znr -c 10 8.8.8.8 | grep AS | sort -gr -k 7
+# mtr -znr -c 10 8.8.8.8 | grep AS | sort -gr -k 7
   9. AS15169  216.239.46.139       0.0%    10  113.2 124.6 112.7 171.1  24.0
   7. AS15169  142.251.49.158      40.0%    10  116.3 116.6 116.2 118.1   0.7
   8. AS15169  74.125.253.94        0.0%    10  112.3 112.3 112.0 112.9   0.3
@@ -171,7 +171,59 @@ mtr -znr -c 10 8.8.8.8 | grep AS | sort -gr -k 7
 
 ## 7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой `dig`
 
+За доменное имя `dns.google` отвечают четыре DNS сервера:
 
+```
+# dig NS dns.google
+
+; <<>> DiG 9.16.1-Ubuntu <<>> NS dns.google
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34069
+;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;dns.google.                    IN      NS
+
+;; ANSWER SECTION:
+dns.google.             17214   IN      NS      ns2.zdns.google.
+dns.google.             17214   IN      NS      ns3.zdns.google.
+dns.google.             17214   IN      NS      ns1.zdns.google.
+dns.google.             17214   IN      NS      ns4.zdns.google.
+
+;; Query time: 111 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Ср янв 26 17:41:08 +10 2022
+;; MSG SIZE  rcvd: 116
+```
+
+У данного доменного имени есть две A записи:
+
+```
+# dig dns.google
+
+; <<>> DiG 9.16.1-Ubuntu <<>> dns.google
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13000
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;dns.google.                    IN      A
+
+;; ANSWER SECTION:
+dns.google.             542     IN      A       8.8.4.4
+dns.google.             542     IN      A       8.8.8.8
+
+;; Query time: 115 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Ср янв 26 17:40:59 +10 2022
+;; MSG SIZE  rcvd: 71
+```
 
 ## 8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой `dig`
 
