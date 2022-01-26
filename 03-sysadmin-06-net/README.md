@@ -40,13 +40,81 @@ HOST: stackoverflow.com
 
 ## 3. Какой IP адрес у вас в интернете?
 
-Мой IP: 92.37.216.164
+Мой IP: `92.37.216.164`
 
 ![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-06-net/img/q3.png)
 
 ## 4. Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой `whois`
 
+Мой IP адрес принадлежит провайдеру `Rostelecom`, автономной системе `AS12389`.
 
+```
+# whois 92.37.216.164
+% This is the RIPE Database query service.
+% The objects are in RPSL format.
+%
+% The RIPE Database is subject to Terms and Conditions.
+% See http://www.ripe.net/db/support/db-terms-conditions.pdf
+
+% Note: this output has been filtered.
+%       To receive output for a database update, use the "-B" flag.
+
+% Information related to '92.37.216.0 - 92.37.217.255'
+
+% Abuse contact for '92.37.216.0 - 92.37.217.255' is 'abuse@rt.ru'
+
+inetnum:        92.37.216.0 - 92.37.217.255
+netname:        KHT-XDSL
+descr:          PPPoE xDSL links in Komsomolsk-at-Amur town, ATS-530 node
+country:        ru
+admin-c:        kv422-ripe
+admin-c:        MMS422-ripe
+tech-c:         kv422-ripe
+tech-c:         MMS422-ripe
+status:         ASSIGNED PA
+mnt-by:         MNT-KHTDSV-NOC
+mnt-lower:      MNT-KHTDSV-NOC
+created:        2008-11-18T09:02:12Z
+last-modified:  2008-11-18T09:02:12Z
+source:         RIPE # Filtered
+
+person:         Konstantyn Vasenyn
+address:        The Khabarovsk Telephone - Telegraph station
+address:        58, Karl Marks st.
+address:        RU-680000 Khabarovsk
+address:        Russia
+mnt-by:         MNT-KV422-RIPE
+phone:          +7 421 2323794
+fax-no:         +7 421 2325206
+nic-hdl:        KV422-RIPE
+created:        1970-01-01T00:00:00Z
+last-modified:  2006-11-06T02:28:34Z
+source:         RIPE # Filtered
+
+person:         Maxim Medvedev
+address:        The Khabarovsk Telephone - Telegraph station
+address:        58, Karl Marks st.
+address:        RU-680000 Khabarovsk
+address:        Russia
+mnt-by:         MNT-MMS422-RIPE
+phone:          +7 421 2322391
+nic-hdl:        MMS422-RIPE
+created:        2005-12-27T01:50:53Z
+last-modified:  2006-07-21T00:29:44Z
+source:         RIPE # Filtered
+
+% Information related to '92.37.216.0/21AS12389'
+
+route:          92.37.216.0/21
+descr:          Rostelecom networks
+origin:         AS12389
+mnt-by:         ROSTELECOM-MNT
+created:        2018-10-18T15:22:49Z
+last-modified:  2018-10-18T15:22:49Z
+source:         RIPE # Filtered
+
+% This query was served by the RIPE Database Query Service version 1.102.2 (ANGUS)
+```
 
 ## 5. Через какие сети проходит пакет, отправленный с вашего компьютера на адрес 8.8.8.8? Через какие AS? Воспользуйтесь утилитой `traceroute`
 
