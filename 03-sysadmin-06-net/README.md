@@ -30,6 +30,13 @@ HOST: stackoverflow.com
 
 **Ответ:**
 
+Первый полученный ответ содержит код: `Status Code: 307 Internal Redirect`.
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-06-net/img/q2_1.png)
+
+Дольше всего обрабатывался второй запрос (произошедший в следствие редиректа), в ответ на который сервер сформировал исходный код страницы.
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-06-net/img/q2_2.png)
 
 ## 3. Какой IP адрес у вас в интернете?
 
