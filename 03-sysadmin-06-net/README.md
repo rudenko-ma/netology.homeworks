@@ -40,7 +40,9 @@ HOST: stackoverflow.com
 
 ## 3. Какой IP адрес у вас в интернете?
 
+Мой IP: 92.37.216.164
 
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-06-net/img/q3.png)
 
 ## 4. Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой `whois`
 
