@@ -110,7 +110,38 @@ C:\Users\ruden> ipconfig /all
 
 ## 3. Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
 
+Для этого используется технология `VLAN`. В Ubuntu поддерживается пакетом `vlan`.
 
+Постаянная конфигруация зависит от версии дистрибутива и отличается для разных сетевых менеджеров (`NetworkManager`, `netplan` и т.д.).
+
+Пример временной конфигурации:
+
+```
+vagrant@ubuntu2004:~$ sudo vconfig add eth0 42
+
+Warning: vconfig is deprecated and might be removed in the future, please migrate to ip(route2) as soon as possible!
+
+vagrant@ubuntu2004:~$ sudo ip addr add 10.9.8.1/24 dev eth0.42
+vagrant@ubuntu2004:~$ sudo ip link set up eth0.42
+vagrant@ubuntu2004:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:06:2d:be brd ff:ff:ff:ff:ff:ff
+    inet 192.168.121.172/24 brd 192.168.121.255 scope global dynamic eth0
+       valid_lft 3469sec preferred_lft 3469sec
+    inet6 fe80::5054:ff:fe06:2dbe/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth0.42@eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 52:54:00:06:2d:be brd ff:ff:ff:ff:ff:ff
+    inet 10.9.8.1/24 scope global eth0.42
+       valid_lft forever preferred_lft forever 
+
+```
+
+Добавили VLAN 42 на основной сетевой интерфейс и присвоили ему IP адрес.
 
 ## 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
