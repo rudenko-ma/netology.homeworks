@@ -2,7 +2,7 @@
 
 ## 1. Проверьте список доступных сетевых интерфейсов на вашем компьютере. Какие команды есть для этого в Linux и в Windows?
 
-В Linux актуальной считается утилита `ip` входящая в состав `iproute2`:
+В Windows используется утилита `ipconfig`:
 ```
 C:\Users\ruden> ipconfig /all
 
@@ -75,7 +75,7 @@ C:\Users\ruden> ipconfig /all
    NetBios через TCP/IP. . . . . . . . : Включен
 ```
 
-В Windows используется утилита `ipconfig`:
+В Linux актуальной считается утилита `ip` входящая в состав `iproute2`:
 ```
 # ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
