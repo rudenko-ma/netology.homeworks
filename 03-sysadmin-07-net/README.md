@@ -305,4 +305,13 @@ Unused:
 
 ## 7. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP?
 
+Смотрим `arp` таблицу в Windows: `arp -a`
+
+Команда для очистки в Windows: `netsh interface ip delete arpcache`
+
+Смотрим `arp` таблицу в Linux: `ip neigh show all`
+
+Команда для очистки в Linux: `ip neigh flush all`
+
+Команда для удаления одной записи: `ip neigh del 192.168.33.25 lladdr 52:54:00:06:2d:be dev eth0`
 
