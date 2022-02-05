@@ -252,11 +252,39 @@ default via 192.168.121.1 dev eth0 proto dhcp src 192.168.121.172 metric 100
 
 ## 3. Проверьте открытые TCP порты в Ubuntu, какие протоколы и приложения используют эти порты? Приведите несколько примеров.
 
+На сервере открыты следующие TCP порты:
+- 22 - сервер SSH (протокол `SSH`)
+- 53 - DNS резолвер (протокол `DNS`)
+- 8125 - порт сервера мониторинга `Netdata` (протокол `StatsD`)
+- 19999 - интерфейс сервера мониторинга `Netdata` (протокол `HTTP`)
+- 9101 - интрефейс агента `node_exporter` (протокол `HTTP`)
 
+```
+vagrant@ubuntu2004:~$ sudo ss -tnlp
+State  Recv-Q Send-Q Local Address:Port  Peer Address:Port Process
+LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*     users:(("systemd-resolve",pid=1073,fd=13))
+LISTEN 0      128          0.0.0.0:22         0.0.0.0:*     users:(("sshd",pid=712,fd=3))
+LISTEN 0      4096       127.0.0.1:8125       0.0.0.0:*     users:(("netdata",pid=674,fd=44))
+LISTEN 0      4096         0.0.0.0:19999      0.0.0.0:*     users:(("netdata",pid=674,fd=4))
+LISTEN 0      4096               *:9101             *:*     users:(("node_exporter",pid=675,fd=3))
+LISTEN 0      128             [::]:22            [::]:*     users:(("sshd",pid=712,fd=4)) 
+```
 
 ## 4. Проверьте используемые UDP сокеты в Ubuntu, какие протоколы и приложения используют эти порты?
 
+На сервере открыты следующие UDP порты:
+- 53 - DNS резолвер (протокол `DNS`)
+- 68 - DHCP клиент (протокол `DHCP`)
+- 8125 - порты сервера мониторинга `Netdata` (протокол `StatsD`)
 
+```
+vagrant@ubuntu2004:~$ sudo ss -unlp
+State       Recv-Q      Send-Q                   Local Address:Port             Peer Address:Port      Process
+UNCONN      0           0                            127.0.0.1:8125                  0.0.0.0:*          users:(("netdata",pid=674,fd=43))
+UNCONN      0           0                        127.0.0.53%lo:53                    0.0.0.0:*          users:(("systemd-resolve",pid=1073,fd=12))
+UNCONN      0           0                 192.168.121.172%eth0:68                    0.0.0.0:*          users:(("systemd-network",pid=363,fd=20))
+UNCONN      0           0                              0.0.0.0:68                    0.0.0.0:*          users:(("dhclient",pid=530,fd=9))
+```
 
 ## 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
 
