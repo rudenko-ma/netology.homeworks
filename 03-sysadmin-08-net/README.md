@@ -288,4 +288,6 @@ UNCONN      0           0                              0.0.0.0:68               
 
 ## 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
 
+Диаграмма моей [домашней сети](diagrams.net):
 
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-08-net/img/q5.png)
