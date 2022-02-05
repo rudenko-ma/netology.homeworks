@@ -216,7 +216,39 @@ route-views>
 
 ## 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
 
+Создаем интерфейс dummpy0:
+```
+vagrant@ubuntu2004:~$ sudo vim /etc/network/interfaces
+# ifupdown has been replaced by netplan(5) on this system.  See
+# /etc/netplan for current configuration.
+# To re-enable ifupdown on this system, you can run:
+#    sudo apt install ifupdown
 
+# создаем интерфейс
+auto dummy0
+iface dummy0 inet static
+        address 172.16.0.100/32
+        pre-up ip link add dummy0 type dummy
+        post-down ip link del dummy0
+
+        # добавляем статические маршруты
+        post-up ip route add 172.16.100.0/24 dev dummy0
+        post-up ip route add 172.16.200.0/24 dev dummy0
+
+allow-hotplug eth0
+iface eth0 inet dhcp
+```
+
+Добавляем маршруты и проверяем таблицу маршрутизации:
+```
+vagrant@ubuntu2004:~$ ip r
+default via 192.168.121.1 dev eth0 
+default via 192.168.121.1 dev eth0 proto dhcp src 192.168.121.172 metric 100 
+172.16.100.0/24 dev dummy0 scope link 
+172.16.200.0/24 dev dummy0 scope link 
+192.168.121.0/24 dev eth0 proto kernel scope link src 192.168.121.172 
+192.168.121.1 dev eth0 proto dhcp scope link src 192.168.121.172 metric 100
+```
 
 ## 3. Проверьте открытые TCP порты в Ubuntu, какие протоколы и приложения используют эти порты? Приведите несколько примеров.
 
