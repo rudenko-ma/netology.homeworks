@@ -216,7 +216,7 @@ route-views>
 
 ## 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
 
-Создаем интерфейс dummpy0:
+Создаем интерфейс dummpy0 и добавляем маршруты:
 ```
 vagrant@ubuntu2004:~$ sudo vim /etc/network/interfaces
 # ifupdown has been replaced by netplan(5) on this system.  See
@@ -239,7 +239,7 @@ allow-hotplug eth0
 iface eth0 inet dhcp
 ```
 
-Добавляем маршруты и проверяем таблицу маршрутизации:
+Проверяем таблицу маршрутизации:
 ```
 vagrant@ubuntu2004:~$ ip r
 default via 192.168.121.1 dev eth0 
