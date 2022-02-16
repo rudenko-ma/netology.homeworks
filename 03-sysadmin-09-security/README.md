@@ -213,6 +213,9 @@ vagrant@u20web:~$ sudo systemctl reload apache2
 
 ## 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
+Собрали трафик на удаленном веб сервере, скачали `pcap` файл, открыли в `Wireshark`.
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-09-security/img/q7.png)
+
 ## 8*. Просканируйте хост scanme.nmap.org. Какие сервисы запущены?
 
 ## 9*. Установите и настройте фаервол ufw на web-сервер из задания 3. Откройте доступ снаружи только к портам 22,80,443
