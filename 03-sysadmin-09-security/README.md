@@ -208,7 +208,8 @@ vagrant@u20web:~$ sudo systemctl reload apache2
 
 ## 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
 
-
+Вход по имени настроен.
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-09-security/img/q6.png)
 
 ## 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
