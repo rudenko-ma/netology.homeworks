@@ -252,3 +252,41 @@ Nmap done: 1 IP address (1 host up) scanned in 26.66 seconds
 ```
 
 ## 9*. Установите и настройте фаервол ufw на web-сервер из задания 3. Откройте доступ снаружи только к портам 22,80,443
+
+Установили `ufw`, добавили правила доступа к указанным портам, включили файерволл.
+
+```
+vagrant@u20web:~$ sudo apt install ufw
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+ufw is already the newest version (0.36-6ubuntu1).
+0 upgraded, 0 newly installed, 0 to remove and 62 not upgraded.
+vagrant@u20web:~$ sudo ufw allow 22/tcp
+Rules updated
+Rules updated (v6)
+vagrant@u20web:~$ sudo ufw allow 80/tcp
+Rules updated
+Rules updated (v6)
+vagrant@u20web:~$ sudo ufw allow 443/tcp
+Rules updated
+Rules updated (v6)
+vagrant@u20web:~$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+vagrant@u20web:~$ sudo ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere                  
+80/tcp                     ALLOW IN    Anywhere                  
+443/tcp                    ALLOW IN    Anywhere                  
+22/tcp (v6)                ALLOW IN    Anywhere (v6)             
+80/tcp (v6)                ALLOW IN    Anywhere (v6)             
+443/tcp (v6)               ALLOW IN    Anywhere (v6) 
+```
+
