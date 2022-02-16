@@ -178,9 +178,9 @@ vagrant@u20web:~$ cat /var/www/u20web/index.html
   ```
 </details>
 
-
 <details>
   <summary>Меняем права, включаем конфигурацию сайта, проверяем и перезагружаем конфигурацию `apache2`</summary>
+  
   ```
 vagrant@u20web:~$ sudo chown -R www-data:www-data /var/www/u20web/
 vagrant@u20web:~$ sudo a2ensite u20web
@@ -197,6 +197,9 @@ vagrant@u20web:~$ sudo systemctl reload apache2
 ![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-09-security/img/q3.png)
 
 ## 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
+
+Проверка обнаружила потенциальные уязвимости.
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/03-sysadmin-09-security/img/q4.png)
 
 ## 5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
  
