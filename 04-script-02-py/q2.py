@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import os
-const modified = 'изменено:'
-repo_path= os.path.abspath(__file__)
+
+modified = 'modified:'
+repo_path= os.path.dirname(os.path.abspath(__file__))
 bash_command = [f"cd {repo_path}", "git status"]
 result_os = os.popen(' && '.join(bash_command)).read()
 #is_change = False  -- не используется
