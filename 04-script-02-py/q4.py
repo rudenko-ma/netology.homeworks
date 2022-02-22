@@ -17,7 +17,7 @@ if os.path.isfile(state_file):
             urls = yaml.safe_load(f)
     else: 
         # для работы не хватает прав
-        print(f"[ERROR] Файл '{state_file}' должен быть доступен на чтение и запись!')
+        print(f"[ERROR] Файл '{state_file}' должен быть доступен на чтение и запись!")
         sys.exit(1)
 else:
     # иначе - инициализируем словарь имен без адресов
