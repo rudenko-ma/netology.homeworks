@@ -73,7 +73,6 @@ for result in result_os.split('\n'):
 #!/usr/bin/env python3
 
 import os
-???
 import sys
 
 # получаем путь к репозиторию
