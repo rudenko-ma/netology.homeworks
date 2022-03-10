@@ -203,12 +203,69 @@ Success! Data written to: pki/config/urls
 </details>
 
 <details>
+  <summary>Генерируем промежуточный сертификат</summary>
+
+  ```shell
+vagrant@diplom:~$ sudo apt install jq
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  libjq1 libonig5
+The following NEW packages will be installed:
+  jq libjq1 libonig5
+0 upgraded, 3 newly installed, 0 to remove and 77 not upgraded.
+Need to get 313 kB of archives.
+After this operation, 1062 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us.archive.ubuntu.com/ubuntu focal/universe amd64 libonig5 amd64 6.9.4-1 [142 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu focal-updates/universe amd64 libjq1 amd64 1.6-1ubuntu0.20.04.1 [121 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu focal-updates/universe amd64 jq amd64 1.6-1ubuntu0.20.04.1 [50.2 kB]
+Fetched 313 kB in 8s (38.5 kB/s)
+Selecting previously unselected package libonig5:amd64.
+(Reading database ... 111207 files and directories currently installed.)
+Preparing to unpack .../libonig5_6.9.4-1_amd64.deb ...
+Unpacking libonig5:amd64 (6.9.4-1) ...
+Selecting previously unselected package libjq1:amd64.
+Preparing to unpack .../libjq1_1.6-1ubuntu0.20.04.1_amd64.deb ...
+Unpacking libjq1:amd64 (1.6-1ubuntu0.20.04.1) ...
+Selecting previously unselected package jq.
+Preparing to unpack .../jq_1.6-1ubuntu0.20.04.1_amd64.deb ...
+Unpacking jq (1.6-1ubuntu0.20.04.1) ...
+Setting up libonig5:amd64 (6.9.4-1) ...
+Setting up libjq1:amd64 (1.6-1ubuntu0.20.04.1) ...
+Setting up jq (1.6-1ubuntu0.20.04.1) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+vagrant@diplom:~$ vault secrets enable -path=pki_int pki
+Success! Enabled the pki secrets engine at: pki_int/
+vagrant@diplom:~$ vault secrets tune -max-lease-ttl=43800h pki_int
+Success! Tuned the secrets engine at: pki_int/
+vagrant@diplom:~$ vault write -format=json pki_int/intermediate/generate/internal \
+>      common_name="diplom.dev Intermediate Authority" \
+>      | jq -r '.data.csr' > pki_intermediate.csr
+vagrant@diplom:~$ vault write -format=json pki/root/sign-intermediate csr=@pki_intermediate.csr \
+>      format=pem_bundle ttl="43800h" \
+>      | jq -r '.data.certificate' > intermediate.cert.pem
+vagrant@diplom:~$ vault write pki_int/intermediate/set-signed certificate=@intermediate.cert.pem
+Success! Data written to: pki_int/intermediate/set-signed
+  ```
+</details>
+
+
+<details>
   <summary></summary>
 
   ```shell
   ```
 </details>
+
+
 ## Процесс установки и настройки сервера nginx
+
 ## Страница сервера nginx в браузере хоста не содержит предупреждений
+
 ## Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
+
 ## Crontab работает (выберите число и время так, чтобы показать что crontab запускается и делает что надо)
+
