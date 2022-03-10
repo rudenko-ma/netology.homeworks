@@ -184,6 +184,25 @@ Development mode should NOT be used in production installations!
 </details>
 
 <details>
+  <summary>Генерируем корневой сертификат</summary>
+
+  ```shell
+vagrant@diplom:~$ export VAULT_ADDR=http://127.0.0.1:8200
+vagrant@diplom:~$ export VAULT_TOKEN=root
+vagrant@diplom:~$ vault secrets enable pki
+Success! Enabled the pki secrets engine at: pki/
+vagrant@diplom:~$ vault secrets tune -max-lease-ttl=87600h pki
+Success! Tuned the secrets engine at: pki/
+vagrant@diplom:~$ vault write -field=certificate pki/root/generate/internal common_name="diplom.dev" tt
+vagrant@diplom:~$ vault write pki/config/urls \
+>      issuing_certificates="$VAULT_ADDR/v1/pki/ca" \
+>      crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
+Success! Data written to: pki/config/urls
+
+  ```
+</details>
+
+<details>
   <summary></summary>
 
   ```shell
