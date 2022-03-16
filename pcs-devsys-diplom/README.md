@@ -289,7 +289,7 @@ vagrant@diplom:~$ vault write --format=json pki_int/issue/diplom-dev common_name
   },
   "warnings": null
 }
-vagrant@diplom:~$ cat certs.json | jq -r .data.certificate > diplom.dev.crtvagrant@diplom:~$ ls
+vagrant@diplom:~$ cat certs.json | jq -r .data.certificate > diplom.dev.crt
 vagrant@diplom:~$ cat certs.json | jq -r .data.issuing_ca >> diplom.dev.crt
 vagrant@diplom:~$ cat certs.json | jq -r .data.private_key > diplom.dev.key
   ```
@@ -453,8 +453,7 @@ vagrant@diplom:~$ cat /var/www/diplom.dev/index.html
 </body>
 </html>
 vagrant@diplom:~$ sudo chown -R root:www-data /var/www/diplom.dev
-vagrant@diplom:~$ sudo chmod -R 755 /var/www/diplom.dev
-
+vagrant@diplom:~$ sudo chmod -R 744 /var/www/diplom.dev
   ```
 </details>
 
@@ -465,7 +464,7 @@ vagrant@diplom:~$ sudo chmod -R 755 /var/www/diplom.dev
 vagrant@diplom:~$ sudo vim /etc/nginx/sites-available/diplom.dev 
 vagrant@diplom:~$ cat /etc/nginx/sites-available/diplom.dev 
 server {
-        listen 443 ssl http2;
+        listen 443 ssl;
         server_name diplom.dev;
         ssl_protocols TLSv1.2 TLSv1.1;
         ssl_certificate ssl/diplom.dev.crt;
