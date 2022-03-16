@@ -267,13 +267,42 @@ Success! Data written to: pki_int/roles/diplom-dev
 </details>
 
 <details>
+  <summary>Запрашиваем данные сертификата сайта, сохраняем данные в файл в формате JSON и формируем файлы сертификата и ключа</summary>
+
+  ```shell
+vagrant@diplom:~$ vault write --format=json pki_int/issue/diplom-dev common_name="diplom.dev" ttl="720h" | tee certs.json
+{
+  "request_id": "04374b66-bd05-0fe3-5d5d-ef207a2ce122",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "ca_chain": [
+      "-----BEGIN CERTIFICATE-----\nMIIDpDCCAoygAwIBAgIUK/gha/tVm5QDQnqR2NqQ6dJFLnowDQYJKoZIhvcNAQEL\nBQAwFTETMBEGA1UEAxMKZGlwbG9tLmRldjAeFw0yMjAzMTAwNDQzNDVaFw0yNzAz\nMDkwNDQ0MTVaMCwxKjAoBgNVBAMTIWRpcGxvbS5kZXYgSW50ZXJtZWRpYXRlIEF1\ndGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALvogE4CUmAw\nDYbI16TzC3rYbtuSsd6vYxlfX7RXw2CwNDTWo4w5ePG6dTDZp5Xo+wA4Yqk1tTcd\nH1WGALmsGIEQrKBfFwEmVcd5o/xTe+pz4SnHsVUkKhmurIZuvAUApCuRfErPr3NW\nXe4ZeDPy/jKMJWFNPzWKWLyDlOBtb3ch5shGdkd0C24y2fioUcPGFgUKyx+vEZkK\ndAoz45NjMgtUOrUot05SBapoSnkrWhkzt/yZ2USTqmcX8c1S4jc1hY10DDPuLx/I\nwCD1eXHyEcg7e6+xmOckQBeVxizkh1haIgTcCU7ScAydpOW6rZ8GdDCYjBlAAnvQ\nQvH+YeF3sNECAwEAAaOB1DCB0TAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUw\nAwEB/zAdBgNVHQ4EFgQUSwVTfEwxERKcuKKBesnViRi7ZSEwHwYDVR0jBBgwFoAU\nCBfZ+PPLqRR5sCPwbU+5r8GGdR8wOwYIKwYBBQUHAQEELzAtMCsGCCsGAQUFBzAC\nhh9odHRwOi8vMTI3LjAuMC4xOjgyMDAvdjEvcGtpL2NhMDEGA1UdHwQqMCgwJqAk\noCKGIGh0dHA6Ly8xMjcuMC4wLjE6ODIwMC92MS9wa2kvY3JsMA0GCSqGSIb3DQEB\nCwUAA4IBAQDO7ICvAWDzuu9kFtFbFjiOqYclgLKhdnIowTBPrNJhd0f5MG1pkN9R\n1uEL5YR/mGoftcWeoNGfyaE7T0F/bearr9UN4bd51yVTq9Ay0IWaBs8nnkgAPEpr\n0HE0ugECzVftdguBgmcVs9aYxSaRyV7HcOlhzjTWplgxds6WzhOFNZMLaiRTy/FO\niFdJzbwR/sMltU3gsEn5MmZd/1HDjpjYXBz5ic24MN+bGKr1JgZeFzBvsGuhDqAg\nt0SR08lvlj8lZSPcj/xL7R8yaOSWFkOsVPQeyyP3vZjM/bHh54MgqcgttV8BMi7X\nyo9ONJ6Cddgxuyb/bshBNkLsZHtNNbWY\n-----END CERTIFICATE-----"
+    ],
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDWTCCAkGgAwIBAgIUIgOclPfyvc84JJOz5GzB79jCyA8wDQYJKoZIhvcNAQEL\nBQAwLDEqMCgGA1UEAxMhZGlwbG9tLmRldiBJbnRlcm1lZGlhdGUgQXV0aG9yaXR5\nMB4XDTIyMDMxNjEwMzQwOVoXDTIyMDQxNTEwMzQzOVowFTETMBEGA1UEAxMKZGlw\nbG9tLmRldjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKOVSZfRUcHz\niAbGL3jU5qM91xxwC+dylVGJsxqL9ZMEC2aJjRW5PtMWHGF9KSpwxgMjFT8nlhKD\n276pQOmsCij/P6EUB4ZtYKgOfo23EJkuEgOw3boFqpP72VxedO+CsD0TgksuYkKS\nYO+bvk7bihoOqlFEyOo9mxCP/lQbt7s+2MWqsXhXv/ZR1QtmEfh1Upz+g6T0bRV4\nxwKOKipa3BNxQibuXgpdMmdGpSnnMRnJW8Ez2TswtQzNX4drNZTFi0kTbzfE6kjD\nV2llVrd+Zsgx2MM2jf+8QvTWznZYkk76dneFxy2oSPL7I1PtTprBTKEmkVAmwUoR\nmMsXHocMfU8CAwEAAaOBiTCBhjAOBgNVHQ8BAf8EBAMCA6gwHQYDVR0lBBYwFAYI\nKwYBBQUHAwEGCCsGAQUFBwMCMB0GA1UdDgQWBBQyHYiJOIIcYEKGYPwMehIyM6EL\nEDAfBgNVHSMEGDAWgBRLBVN8TDEREpy4ooF6ydWJGLtlITAVBgNVHREEDjAMggpk\naXBsb20uZGV2MA0GCSqGSIb3DQEBCwUAA4IBAQBnzfqgtl0S3FriIg1FJEowZQLW\nbbOrzSa6WYrSe4REPK2I9D6jG0pdp/hz7my+CCf2GQf+9i5d0vat0+K+hRG7xbtx\n9ucTJ8+tsCtxvCWXKO1mrHy3Y/yUWLfr4s/ThqlyyaMk/0FQHS/t8zlA3nfveGtO\nTMDFuIvEJsFnPcx/5feQpKQyq4GF85Sh3CDRT7scCIvXq3GjueOEhp73XbrGWfDj\nyXLR8y9ccjlfOL/22KwN2/2NkNBeDd7gvX5UW9+uWLlL9kYBDKKOWrRlB4FfDGLF\nxUSjdvNvjmYG9uYbrLHeE6Wwa1Birux/oXjL/1ETkUukQhJ0E3NfN5IZFwir\n-----END CERTIFICATE-----",
+    "expiration": 1650018879,
+    "issuing_ca": "-----BEGIN CERTIFICATE-----\nMIIDpDCCAoygAwIBAgIUK/gha/tVm5QDQnqR2NqQ6dJFLnowDQYJKoZIhvcNAQEL\nBQAwFTETMBEGA1UEAxMKZGlwbG9tLmRldjAeFw0yMjAzMTAwNDQzNDVaFw0yNzAz\nMDkwNDQ0MTVaMCwxKjAoBgNVBAMTIWRpcGxvbS5kZXYgSW50ZXJtZWRpYXRlIEF1\ndGhvcml0eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALvogE4CUmAw\nDYbI16TzC3rYbtuSsd6vYxlfX7RXw2CwNDTWo4w5ePG6dTDZp5Xo+wA4Yqk1tTcd\nH1WGALmsGIEQrKBfFwEmVcd5o/xTe+pz4SnHsVUkKhmurIZuvAUApCuRfErPr3NW\nXe4ZeDPy/jKMJWFNPzWKWLyDlOBtb3ch5shGdkd0C24y2fioUcPGFgUKyx+vEZkK\ndAoz45NjMgtUOrUot05SBapoSnkrWhkzt/yZ2USTqmcX8c1S4jc1hY10DDPuLx/I\nwCD1eXHyEcg7e6+xmOckQBeVxizkh1haIgTcCU7ScAydpOW6rZ8GdDCYjBlAAnvQ\nQvH+YeF3sNECAwEAAaOB1DCB0TAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUw\nAwEB/zAdBgNVHQ4EFgQUSwVTfEwxERKcuKKBesnViRi7ZSEwHwYDVR0jBBgwFoAU\nCBfZ+PPLqRR5sCPwbU+5r8GGdR8wOwYIKwYBBQUHAQEELzAtMCsGCCsGAQUFBzAC\nhh9odHRwOi8vMTI3LjAuMC4xOjgyMDAvdjEvcGtpL2NhMDEGA1UdHwQqMCgwJqAk\noCKGIGh0dHA6Ly8xMjcuMC4wLjE6ODIwMC92MS9wa2kvY3JsMA0GCSqGSIb3DQEB\nCwUAA4IBAQDO7ICvAWDzuu9kFtFbFjiOqYclgLKhdnIowTBPrNJhd0f5MG1pkN9R\n1uEL5YR/mGoftcWeoNGfyaE7T0F/bearr9UN4bd51yVTq9Ay0IWaBs8nnkgAPEpr\n0HE0ugECzVftdguBgmcVs9aYxSaRyV7HcOlhzjTWplgxds6WzhOFNZMLaiRTy/FO\niFdJzbwR/sMltU3gsEn5MmZd/1HDjpjYXBz5ic24MN+bGKr1JgZeFzBvsGuhDqAg\nt0SR08lvlj8lZSPcj/xL7R8yaOSWFkOsVPQeyyP3vZjM/bHh54MgqcgttV8BMi7X\nyo9ONJ6Cddgxuyb/bshBNkLsZHtNNbWY\n-----END CERTIFICATE-----",
+    "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAo5VJl9FRwfOIBsYveNTmoz3XHHAL53KVUYmzGov1kwQLZomN\nFbk+0xYcYX0pKnDGAyMVPyeWEoPbvqlA6awKKP8/oRQHhm1gqA5+jbcQmS4SA7Dd\nugWqk/vZXF5074KwPROCSy5iQpJg75u+TtuKGg6qUUTI6j2bEI/+VBu3uz7Yxaqx\neFe/9lHVC2YR+HVSnP6DpPRtFXjHAo4qKlrcE3FCJu5eCl0yZ0alKecxGclbwTPZ\nOzC1DM1fh2s1lMWLSRNvN8TqSMNXaWVWt35myDHYwzaN/7xC9NbOdliSTvp2d4XH\nLahI8vsjU+1OmsFMoSaRUCbBShGYyxcehwx9TwIDAQABAoIBAGoL/9eR9USdEhQC\nKwhUTOiK0Ic5BB6ZI7/mWtvc2+jg+FsS1Qm+O8IwVVnGAAfpcBTci4uTqDB8ltp1\ncwWJaFTHlIJiL7av9bc9HkHU6cfEHB2UbUmJHtosrO66tWgH+yS9HvyKJ10s8/ah\nqrAIlvDpjPR+eRmRspL8Jk50YZnazJlsPXyGAb2v3hJChVAPsnfuFE6hVLy+6Lzy\n2GhP2kGPfpfptP8sZw7NVaOPVbr3Ktrg4bZoYlXESXqLfD5lHlmM105YscKkg4Jd\nQZDnKgsHrh3Ovam3or+2xpmcw1ELPMDnXDXw5mMYfYQIq5UHQCgLDWkCYr4VxOVt\nuuCEJzECgYEA1wVph3lFA/MUnsH+frUOCP837kFei6q7CohWSaWSbOXaraK298+Y\nB4oepHuS/iN5Bkzuhuz+Ld+jfTx+biSTZLN9LRRA7+fJJxS626lHvyOWpUFB7mw2\n03fIgxCcOWVSwkPr6enEqLdKlStEsgUeSdL2nc5rnVR3/QoQGEyh5mUCgYEAwsJJ\nPqvdJ2nLtHK8bdp4FWCZ9Qijd0JMzyUzZd5O9/LgiVAFhtWX5wJkPjtz35p3rnZ6\nS1UKseV698M5eqZbaLE2eLwbDJFcS5jPVUlhMHUHzFRvBEvGDOD8X2yDIq8rCYi3\nfbeAApf7s6um9oXt44+1HkyyF3WpyXr+wWc9b6MCgYAwbs2ocE51Z0mbwQK8M7gn\nmqVUi3DqcNiUtMUK7bqfwN6TAfXIt//8osXoMtWXXRIjsyx/Q961IozG5ttrn917\nb1qgztEZuNH8dZTpaaX5jeCe9KYPOFzZIUAPFay62PHdRENdewSLJE4ub4KXvsNl\nyZk3Tom69I3ad2vMrWZCaQKBgEbCliAKC1DdlGBca2+yN3z02xr254VV9lgwmOsD\nCUf223OoOknR4t3QtaESsrfkBGXDsA0cucUGrlXEfWa9eGqiMDtPhLhdO95Ph8zh\n20jizFGFv8wcx7k4KRl2cHKyl/1fyeMIP58xnwaZcBETeen69YArt2zkmCqW4GZe\nXyjnAoGBAJt3/+avLjmICSyRpaX/lhvOZ+Ew6X940jdsa19OvkHqDu8aLd3cqZHs\nfzaWZguKm9TpJPNU7eZmu42TRC1fiGd9bNocXpYz6lu9J12tNEC9rp/s5tCkCSNd\nSjOHs6hKDncPUkeeH2ouMBijkBF1ZMbuVlwy9CR8YYvOQjr1MZWv\n-----END RSA PRIVATE KEY-----",
+    "private_key_type": "rsa",
+    "serial_number": "22:03:9c:94:f7:f2:bd:cf:38:24:93:b3:e4:6c:c1:ef:d8:c2:c8:0f"
+  },
+  "warnings": null
+}
+vagrant@diplom:~$ cat certs.json | jq -r .data.certificate > diplom.dev.crtvagrant@diplom:~$ ls
+vagrant@diplom:~$ cat certs.json | jq -r .data.issuing_ca >> diplom.dev.crt
+vagrant@diplom:~$ cat certs.json | jq -r .data.private_key > diplom.dev.key
+  ```
+</details>
+
+## Процесс установки и настройки сервера nginx
+
+<details>
   <summary></summary>
 
   ```shell
   ```
 </details>
-
-## Процесс установки и настройки сервера nginx
 
 ## Страница сервера nginx в браузере хоста не содержит предупреждений
 
