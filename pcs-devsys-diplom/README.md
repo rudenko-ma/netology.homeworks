@@ -252,6 +252,19 @@ Success! Data written to: pki_int/intermediate/set-signed
   ```
 </details>
 
+<details>
+  <summary>Создаем роль</summary>
+
+  ```shell
+vagrant@diplom:~$ vault write pki_int/roles/diplom-dev \
+>      allowed_domains="diplom.dev" \
+>      allow_bare_domains=true \
+>      alt_names="diplom.dev,localhost" \
+>      allow_subdomains=true \
+>      max_ttl="720h"
+Success! Data written to: pki_int/roles/diplom-dev
+  ```
+</details>
 
 <details>
   <summary></summary>
@@ -259,7 +272,6 @@ Success! Data written to: pki_int/intermediate/set-signed
   ```shell
   ```
 </details>
-
 
 ## Процесс установки и настройки сервера nginx
 
