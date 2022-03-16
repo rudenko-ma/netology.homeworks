@@ -298,15 +298,202 @@ vagrant@diplom:~$ cat certs.json | jq -r .data.private_key > diplom.dev.key
 ## Процесс установки и настройки сервера nginx
 
 <details>
-  <summary></summary>
+  <summary>Устанавливаем NginX и проверяем его статус</summary>
 
   ```shell
+vagrant@diplom:~$ sudo apt install nginx
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0 libjpeg-turbo8 libjpeg8
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libtiff5 libwebp6 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0 libjpeg-turbo8 libjpeg8
+  libnginx-mod-http-image-filter libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream
+  libtiff5 libwebp6 libxpm4 nginx nginx-common nginx-core
+0 upgraded, 17 newly installed, 0 to remove and 77 not upgraded.
+Need to get 2432 kB of archives.
+After this operation, 7891 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us.archive.ubuntu.com/ubuntu focal/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu focal/main amd64 fontconfig-config all 2.13.1-2ubuntu3 [28.8 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu focal/main amd64 libfontconfig1 amd64 2.13.1-2ubuntu3 [114 kB]
+Get:4 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjpeg-turbo8 amd64 2.0.3-0ubuntu1.20.04.1 [117 kB]
+Get:5 http://us.archive.ubuntu.com/ubuntu focal/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]        
+Get:6 http://us.archive.ubuntu.com/ubuntu focal/main amd64 libjbig0 amd64 2.1-3.1build1 [26.7 kB]     
+Get:7 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.20.04.1 [185 kB]
+Get:8 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtiff5 amd64 4.1.0+git191117-2ubuntu0.20.04.2 [162 kB]
+Get:9 http://us.archive.ubuntu.com/ubuntu focal/main amd64 libxpm4 amd64 1:3.5.12-1 [34.0 kB]         
+Get:10 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgd3 amd64 2.2.5-5.2ubuntu2.1 [118 kB]
+Get:11 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-common all 1.18.0-0ubuntu1.2 [37.5 kB]
+Get:12 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-image-filter amd64 1.18.0-0ubuntu1.2 [14.4 kB]
+Get:13 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-http-xslt-filter amd64 1.18.0-0ubuntu1.2 [12.7 kB]
+Get:14 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-mail amd64 1.18.0-0ubuntu1.2 [42.5 kB]
+Get:15 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 libnginx-mod-stream amd64 1.18.0-0ubuntu1.2 [67.3 kB]
+Get:16 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx-core amd64 1.18.0-0ubuntu1.2 [425 kB]
+Get:17 http://us.archive.ubuntu.com/ubuntu focal-updates/main amd64 nginx all 1.18.0-0ubuntu1.2 [3620 B]
+Fetched 2432 kB in 8s (293 kB/s)                                                                      
+Preconfiguring packages ...
+Selecting previously unselected package fonts-dejavu-core.
+(Reading database ... 111224 files and directories currently installed.)
+Preparing to unpack .../00-fonts-dejavu-core_2.37-1_all.deb ...
+Unpacking fonts-dejavu-core (2.37-1) ...
+Selecting previously unselected package fontconfig-config.
+Preparing to unpack .../01-fontconfig-config_2.13.1-2ubuntu3_all.deb ...
+Unpacking fontconfig-config (2.13.1-2ubuntu3) ...
+Selecting previously unselected package libfontconfig1:amd64.
+Preparing to unpack .../02-libfontconfig1_2.13.1-2ubuntu3_amd64.deb ...
+Unpacking libfontconfig1:amd64 (2.13.1-2ubuntu3) ...
+Selecting previously unselected package libjpeg-turbo8:amd64.
+Preparing to unpack .../03-libjpeg-turbo8_2.0.3-0ubuntu1.20.04.1_amd64.deb ...
+Unpacking libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.1) ...
+Selecting previously unselected package libjpeg8:amd64.
+Preparing to unpack .../04-libjpeg8_8c-2ubuntu8_amd64.deb ...
+Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...
+Selecting previously unselected package libjbig0:amd64.
+Preparing to unpack .../05-libjbig0_2.1-3.1build1_amd64.deb ...
+Unpacking libjbig0:amd64 (2.1-3.1build1) ...
+Selecting previously unselected package libwebp6:amd64.
+Preparing to unpack .../06-libwebp6_0.6.1-2ubuntu0.20.04.1_amd64.deb ...
+Unpacking libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...
+Selecting previously unselected package libtiff5:amd64.
+Preparing to unpack .../07-libtiff5_4.1.0+git191117-2ubuntu0.20.04.2_amd64.deb ...
+Unpacking libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.2) ...
+Selecting previously unselected package libxpm4:amd64.
+Preparing to unpack .../08-libxpm4_1%3a3.5.12-1_amd64.deb ...
+Unpacking libxpm4:amd64 (1:3.5.12-1) ...
+Selecting previously unselected package libgd3:amd64.
+Preparing to unpack .../09-libgd3_2.2.5-5.2ubuntu2.1_amd64.deb ...
+Unpacking libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../10-nginx-common_1.18.0-0ubuntu1.2_all.deb ...
+Unpacking nginx-common (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package libnginx-mod-http-image-filter.
+Preparing to unpack .../11-libnginx-mod-http-image-filter_1.18.0-0ubuntu1.2_amd64.deb ...
+Unpacking libnginx-mod-http-image-filter (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package libnginx-mod-http-xslt-filter.
+Preparing to unpack .../12-libnginx-mod-http-xslt-filter_1.18.0-0ubuntu1.2_amd64.deb ...
+Unpacking libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package libnginx-mod-mail.
+Preparing to unpack .../13-libnginx-mod-mail_1.18.0-0ubuntu1.2_amd64.deb ...
+Unpacking libnginx-mod-mail (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package libnginx-mod-stream.
+Preparing to unpack .../14-libnginx-mod-stream_1.18.0-0ubuntu1.2_amd64.deb ...
+Unpacking libnginx-mod-stream (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../15-nginx-core_1.18.0-0ubuntu1.2_amd64.deb ...
+Unpacking nginx-core (1.18.0-0ubuntu1.2) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../16-nginx_1.18.0-0ubuntu1.2_all.deb ...
+Unpacking nginx (1.18.0-0ubuntu1.2) ...
+Setting up libxpm4:amd64 (1:3.5.12-1) ...
+Setting up nginx-common (1.18.0-0ubuntu1.2) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.
+Setting up libjbig0:amd64 (2.1-3.1build1) ...
+Setting up libnginx-mod-http-xslt-filter (1.18.0-0ubuntu1.2) ...
+Setting up libwebp6:amd64 (0.6.1-2ubuntu0.20.04.1) ...
+Setting up fonts-dejavu-core (2.37-1) ...
+Setting up libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.1) ...
+Setting up libjpeg8:amd64 (8c-2ubuntu8) ...
+Setting up libnginx-mod-mail (1.18.0-0ubuntu1.2) ...
+Setting up fontconfig-config (2.13.1-2ubuntu3) ...
+Setting up libnginx-mod-stream (1.18.0-0ubuntu1.2) ...
+Setting up libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.2) ...
+Setting up libfontconfig1:amd64 (2.13.1-2ubuntu3) ...
+Setting up libgd3:amd64 (2.2.5-5.2ubuntu2.1) ...
+Setting up libnginx-mod-http-image-filter (1.18.0-0ubuntu1.2) ...
+Setting up nginx-core (1.18.0-0ubuntu1.2) ...
+Setting up nginx (1.18.0-0ubuntu1.2) ...
+Processing triggers for ufw (0.36-6ubuntu1) ...
+Processing triggers for systemd (245.4-4ubuntu3.13) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+vagrant@diplom:~$ systemctl status nginx
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-03-16 10:43:10 UTC; 2min 54s ago
+       Docs: man:nginx(8)
+   Main PID: 15075 (nginx)
+      Tasks: 2 (limit: 1071)
+     Memory: 3.5M
+     CGroup: /system.slice/nginx.service
+             ├─15075 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+             └─15076 nginx: worker process
+
+Mar 16 10:43:10 diplom systemd[1]: Starting A high performance web server and a reverse proxy server...
+Mar 16 10:43:10 diplom systemd[1]: Started A high performance web server and a reverse proxy server.
+  ```
+</details>
+
+<details>
+  <summary>Создаем директорию сайта, индексный файл и меняем права</summary>
+
+  ```shell
+vagrant@diplom:~$ sudo mkdir -p /var/www/diplom.dev
+vagrant@diplom:~$ sudo vim /var/www/diplom.dev/index.html
+vagrant@diplom:~$ cat /var/www/diplom.dev/index.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>PCS-DEVSYS-DIPLOM</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>This page served with SSL encryption!</h1>
+</body>
+</html>
+vagrant@diplom:~$ sudo chown -R root:www-data /var/www/diplom.dev
+vagrant@diplom:~$ sudo chmod -R 755 /var/www/diplom.dev
+
+  ```
+</details>
+
+<details>
+  <summary>Создаем конфигурацию сайта, копируем сертификаты и перезагружаем nginx</summary>
+
+  ```shell
+vagrant@diplom:~$ sudo vim /etc/nginx/sites-available/diplom.dev 
+vagrant@diplom:~$ cat /etc/nginx/sites-available/diplom.dev 
+server {
+        listen 443 ssl http2;
+        server_name diplom.dev;
+        ssl_protocols TLSv1.2 TLSv1.1;
+        ssl_certificate ssl/diplom.dev.crt;
+        ssl_certificate_key ssl/diplom.dev.key;
+        root /var/www/diplom.dev;
+        index index.html index.htm;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+vagrant@diplom:~$ sudo mkdir /etc/nginx/ssl
+vagrant@diplom:~$ sudo cp diplom.dev* /etc/nginx/ssl
+vagrant@diplom:~$ sudo systemctl reload nginx
   ```
 </details>
 
 ## Страница сервера nginx в браузере хоста не содержит предупреждений
 
 ## Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
+
+<details>
+  <summary></summary>
+
+  ```shell
+
+
+  ```
+</details>
 
 ## Crontab работает (выберите число и время так, чтобы показать что crontab запускается и делает что надо)
 
