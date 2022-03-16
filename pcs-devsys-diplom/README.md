@@ -484,6 +484,8 @@ vagrant@diplom:~$ sudo systemctl reload nginx
 
 ## Страница сервера nginx в браузере хоста не содержит предупреждений
 
+![Сертификат действителен, предупреждений нет](https://github.com/rudenko-ma/netology.homeworks/blob/main/pcs-devsys-diplom/img/diplom.dev.1.jpg)
+
 ## Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
 
 <details>
