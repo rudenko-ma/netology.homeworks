@@ -516,3 +516,25 @@ vagrant@diplom:~$ sudo chmod 754 /etc/nginx/ssl/update_cert.sh
 
 ## Crontab работает (выберите число и время так, чтобы показать что crontab запускается и делает что надо)
 
+<details>
+  <summary>Выбираем время, обновляем расписание, ждем и проверяем результат</summary>
+
+  ```shell
+vagrant@diplom:~$ date
+Wed Mar 16 14:09:09 UTC 2022
+vagrant@diplom:~$ crontab -e
+crontab: installing new crontab
+vagrant@diplom:~$ crontab -l
+# m h  dom mon dow   command
+ 10 14 16   *   *    /etc/nginx/ssl/update_cert.sh
+vagrant@diplom:~$ ls -la /etc/nginx/ssl
+total 20
+drwxr-xr-x 2 root root    4096 Mar 16 14:10 .
+drwxr-xr-x 9 root root    4096 Mar 16 12:28 ..
+-rw-r--r-- 1 root root    2542 Mar 16 14:10 diplom.dev.crt
+-rw-r--r-- 1 root root    1675 Mar 16 14:10 diplom.dev.key
+-rwxr-xr-- 1 root vagrant  567 Mar 16 13:54 update_cert.sh
+  ```
+</details>
+
+![Скриншот обновленного сертификата](https://github.com/rudenko-ma/netology.homeworks/blob/main/pcs-devsys-diplom/img/diplom.dev.2.png)
