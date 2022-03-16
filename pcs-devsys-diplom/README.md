@@ -489,11 +489,28 @@ vagrant@diplom:~$ sudo systemctl reload nginx
 ## Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
 
 <details>
-  <summary></summary>
+  <summary>Создаем скрипт и выставляем права</summary>
 
   ```shell
+vagrant@diplom:~$ sudo vim /etc/nginx/ssl/update_cert.sh
+vagrant@diplom:~$ cat /etc/nginx/ssl/update_cert.sh
+#!/usr/bin/env bash
 
+export VAULT_ADDR='http://127.0.0.1:8200'
+export VAULT_TOKEN='root'
 
+vault write --format=json pki_int/issue/diplom-dev common_name="diplom.dev" ttl="720h" > /home/vagrant/diplom.certs.json
+cat diplom.certs.json | jq -r .data.certificate > /home/vagrant/diplom.dev.crt
+cat diplom.certs.json | jq -r .data.issuing_ca >> diplom.dev.crt
+cat diplom.certs.json | jq -r .data.private_key > diplom.dev.key
+
+sudo rm -f /etc/nginx/ssl/diplom.dev.*
+sudo cp /home/vagrant/diplom.dev* /etc/nginx/ssl
+rm -f /home/vagrant/diplom.*
+
+sudo systemctl reload nginx
+vagrant@diplom:~$ sudo chown root:vagrant /etc/nginx/ssl/update_cert.sh
+vagrant@diplom:~$ sudo chmod 754 /etc/nginx/ssl/update_cert.sh
   ```
 </details>
 
