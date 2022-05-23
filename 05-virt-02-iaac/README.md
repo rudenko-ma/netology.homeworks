@@ -45,3 +45,5 @@
 ```
 docker ps
 ```
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/05-virt-02-iaac/img/docker_ps.png)
