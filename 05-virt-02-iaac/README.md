@@ -22,11 +22,17 @@
 
 ## Задача 3
 
+
 Установить на личный компьютер:
 
 - VirtualBox
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/05-virt-02-iaac/img/vbox-version.png)
+
 - Vagrant
 - Ansible
+
+![](https://github.com/rudenko-ma/netology.homeworks/blob/main/05-virt-02-iaac/img/vagrant_and_ansible_vers.png)
 
 *Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.*
 
