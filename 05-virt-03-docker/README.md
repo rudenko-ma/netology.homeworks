@@ -29,7 +29,7 @@ Hey, Netology
 
 ### Ответ:
 
-
+https://hub.docker.com/r/rumasu/netology-nginx
 
 ## Задача 2
 
