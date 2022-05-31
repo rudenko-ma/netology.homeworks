@@ -79,7 +79,7 @@ https://hub.docker.com/r/rumasu/netology-nginx
 
 ### Ответ:
 
-![](https://github.com/rudenko-ma/netology.homeworks/blob/main/05-virt-03-docker/img/q3.png)
+![](https://github.com/rudenko-ma/netology.homeworks/blob/05-virt-03-docker/05-virt-03-docker/img/q3.png)
 
 ## Задача 4 (*)
 
@@ -94,4 +94,4 @@ https://hub.docker.com/r/rumasu/netology-nginx
 
 ### Ответ:
 
-
+https://hub.docker.com/r/rumasu/ansible
