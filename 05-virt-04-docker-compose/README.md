@@ -36,7 +36,9 @@
 
 ### Ответ:
 
-
+<p align="center">
+  <img width="1200" height="600" src="./img/q2.png">
+</p>
 
 ## Задача 3
 
