@@ -14,7 +14,9 @@
 
 ### Ответ:
 
-
+<p align="center">
+  <img width="1200" height="600" src="./img/q1.png">
+</p>
 
 ## Задача 2
 
