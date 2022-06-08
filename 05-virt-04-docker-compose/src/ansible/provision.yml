@@ -56,8 +56,26 @@
           mode: 0644
         become: true
 
+  - hosts: manager
+    become: yes
+    become_user: root
+    remote_user: centos
+
+    tasks:
       - name: Pull all images in compose
         command: docker-compose -f /opt/stack/docker-compose.yaml pull
 
       - name: Up all services in compose
         command: docker-compose -f /opt/stack/docker-compose.yaml up -d
+  
+  - hosts: exporter
+    become: yes
+    become_user: root
+    remote_user: centos
+
+    tasks:
+      - name: Pull all images in compose
+        command: docker-compose -f /opt/stack/exporters/docker-compose.exporters.yaml pull
+
+      - name: Up all services in compose
+        command: docker-compose -f /opt/stack/exporters/docker-compose.exporters.yaml up -d

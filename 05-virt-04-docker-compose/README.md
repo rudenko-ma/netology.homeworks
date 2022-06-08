@@ -76,4 +76,6 @@
 
 ### Ответ:
 
-
+<p align="center">
+  <img width="1200" height="600" src="./img/q4.png">
+</p>
