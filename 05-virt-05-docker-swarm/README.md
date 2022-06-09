@@ -43,4 +43,9 @@ docker service ls
 # см.документацию: https://docs.docker.com/engine/swarm/swarm_manager_locking/
 docker swarm update --autolock=true
 ```
+> Вышеуказанная команда обновляет настройку кластера отвечающую за защиту ключей шифрования. Если защита включена - перезапуск Docker Daemon приводит к тому, что узел не может взаимодействовать с кластером, пока ключи не будут разблокированны.
+> Для разблокировки используется команда `docker swarm unlock` с указанием ключа разблокировки.
 
+<p align="center">
+  <img width="1200" height="600" src="./img/q4.png">
+</p>
