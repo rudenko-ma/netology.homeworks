@@ -47,5 +47,5 @@ docker swarm update --autolock=true
 > Для разблокировки используется команда `docker swarm unlock` с указанием ключа разблокировки.
 
 <p align="center">
-  <img width="1200" height="600" src="./img/q4.png">
+  <img width="1200" height="1200" src="./img/q4.png">
 </p>
