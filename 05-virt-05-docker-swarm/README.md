@@ -32,6 +32,9 @@ docker node ls
 ```
 docker service ls
 ```
+<p align="center">
+  <img width="1200" height="600" src="./img/q3.png">
+</p>
 
 ## Задача 4 (*)
 
